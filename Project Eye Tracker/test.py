@@ -18,21 +18,27 @@ class MyWindow(Tk):
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
+        self.rowconfigure(1, weight=5)
+        self.rowconfigure(2, weight=5)
 
-        # Les Rectangles
-        rectangle_1 = Label(self, text="Rectangle 1", bg="green", fg="white")
-        rectangle_1.grid(column=0, row=0, ipadx=10, ipady=10, sticky="NSEW")
+        # Le Rectangle Question
+        Question = Label(self, text="Question",bg="yellow", fg="black", font=('Times 28'))
+        Question.grid(column=0, row=0,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
 
-        rectangle_2 = Label(self, text="Rectangle 2", bg="red", fg="white")
-        rectangle_2.grid(column=1, row=0, ipadx=10, ipady=10, sticky="NSEW")
+        # Les Rectangles Reponses
+        Reponse_1 = Label(self, text="Reponse 1",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        Reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        rectangle_3 = Label(self, text="Rectangle 3", bg="blue", fg="white")
-        rectangle_3.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        Reponse_2 = Label(self, text="Reponse 2",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        Reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        rectangle_4 = Label(self, text="Rectangle 4", bg="pink", fg="white")
-        rectangle_4.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
-        
+        Reponse_3 = Label(self, text="Reponse 3",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        Reponse_3.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
+
+        Reponse_4 = Label(self, text="Reponse 4",bg="red", fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        Reponse_4.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
+
+
         # On ajoute un titre à la fenêtre
         self.title("Eye Tracker")
        
