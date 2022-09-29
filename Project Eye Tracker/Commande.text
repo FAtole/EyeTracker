@@ -1,0 +1,3 @@
+docker build -t eyetracker_python_test 
+docker run -d -t --name eyetracker eyetracker_python_test
+docker exec -ti eyetracker bash
