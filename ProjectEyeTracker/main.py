@@ -21,7 +21,7 @@ class Window(Tk):
         self.title("Eye Tracker")
         
         # cree le container où on va mettre les frames
-        self.container = Frame(self)
+        self.container = Frame(self,bg="green")
         self.container.pack(side="top", fill="both", expand = True)
         #Poids dans le container
         self.container.grid_rowconfigure(0, weight=1)
@@ -30,7 +30,7 @@ class Window(Tk):
         self.frames = {}
         for F in (Page_Accueil, Page_Reponses):
             #cree les différentes frames
-            frame = F(self.container, self)
+            frame = F( self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
@@ -41,13 +41,13 @@ class Window(Tk):
         for frame in self.frames.values():
             frame.grid_remove()
         frame = self.frames[cont]
-        frame.refresh(self.container,self)
+        frame.refresh(self)
         frame.grid()
 
 class Page_Accueil(Frame):
 
-    def __init__(self, parent, controller):
-        Frame.__init__(self,parent)
+    def __init__(self,  controller):
+        Frame.__init__(self,controller.container)
 
         for prop in controller.bdd_propositions.Propositions:
             def Switch_To_Panel(proposition):
@@ -57,27 +57,22 @@ class Page_Accueil(Frame):
                             command=lambda i=prop: Switch_To_Panel(i))
             button.pack()
 
-    def refresh(self,parent,controller):
-        self.destroy()
-        self.__init__(parent,controller)
+    def refresh(self,controller):
+        pass
+
 
 class Page_Reponses(Frame):
 
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-
-        print(controller.Selected_Proposition)
-        question =  controller.Selected_Proposition.question if controller.Selected_Proposition !=None else "Question"
-
+    def __init__(self,  controller):
+        Frame.__init__(self, controller.container)
         # On configure les poids
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         self.rowconfigure(0, weight=1)
 
-
         # Le Rectangle Question
-        Question = Label(self, text=question,bg="yellow", fg="black", font=('Times 28'))
-        Question.grid(column=0, row=0,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
+        self.Question = Label(self, text="Question",bg="yellow", fg="black", font=('Times 28'))
+        self.Question.grid(column=0, row=0,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
 
         self.rowconfigure(1, weight=5)
         self.rowconfigure(2, weight=5)
@@ -132,9 +127,10 @@ class Page_Reponses(Frame):
                             command=lambda: controller.show_frame(Page_Accueil))
         button1.grid(column=1, row=0,sticky="E")
 
-    def refresh(self,parent,controller):
-        self.destroy()
-        self.__init__(parent,controller)
+    def refresh(self,controller):
+        question =  controller.Selected_Proposition.question if controller.Selected_Proposition !=None else "Question"
+        self.Question.configure(text=question)        
+
 
 def start_application() -> Window:
     app = Window()
