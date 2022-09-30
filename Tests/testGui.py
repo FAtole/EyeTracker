@@ -1,7 +1,7 @@
 import unittest 
 import sys
 sys.path.append("..")
-from ProjectEyeTracker.main import start_application
+from projecteyetracker.main import start_application
 
 class TestGui(unittest.TestCase):
     
