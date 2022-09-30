@@ -1,6 +1,7 @@
 FROM python:3.8-slim
 
 RUN pip install -U pip setuptools
+# Install Tobii
 RUN pip install tobii_research
 
 # Download Package Information
@@ -9,7 +10,7 @@ RUN apt-get update -y
 RUN apt-get install tk -y
 
 WORKDIR /usr/app/src
-COPY main.py ./
+COPY ProjectEyeTracker/main.py ./
 
 
 CMD ["main.py"]
