@@ -2,7 +2,7 @@ from tkinter import Tk, Label
 
 
 # On définit une classe fenêtre 
-class MyWindow(Tk):
+class Window(Tk):
 
     def __init__(self):
         # On appelle le constructeur parent
@@ -72,8 +72,11 @@ class MyWindow(Tk):
                 Reponse_4.config(bg="white")
             
         self.bind('<Motion>', motion)
-        self.mainloop()
+
+def start_application() -> Window:
+    app = Window()
+    return app # return application
 
 if __name__ == "__main__" :
-    # On crée notre fenêtre et on l'affiche
-    window = MyWindow()
+    start_application().mainloop()
+
