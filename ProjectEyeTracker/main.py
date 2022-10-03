@@ -1,4 +1,5 @@
-from tkinter import Button, Frame, Tk, Label
+from sqlite3 import Row
+from tkinter import Button, Frame, Grid, Tk, Label
 from reader_csv import Load_CSV
 
 # On définit une classe fenêtre 
@@ -22,6 +23,7 @@ class Window(Tk):
         
         # cree le container où on va mettre les frames
         self.container = Frame(self,bg="green")
+        #self.container.grid(row=0,column=0,sticky='nsew')
         self.container.pack(side="top", fill="both", expand = True)
         #Poids dans le container
         self.container.grid_rowconfigure(0, weight=1)
@@ -45,17 +47,38 @@ class Window(Tk):
         frame.grid()
 
 class Page_Accueil(Frame):
-
+    
     def __init__(self,  controller):
         Frame.__init__(self,controller.container)
 
-        for prop in controller.bdd_propositions.Propositions:
-            def Switch_To_Panel(proposition):
+        frame1 = Frame(self,relief="groove", borderwidth=2)
+        #frame1.grid(row=0,column=0,sticky='nsew',pady=5,padx=5)
+        frame1.pack(fill="both",expand=True,pady=5,padx=5)
+        
+        frame1.rowconfigure(0,weight=1)
+        frame1.columnconfigure(0,weight=1)
+        frame1.columnconfigure(1,weight=1)
+        frame1.columnconfigure(2,weight=1)
+        frame1.columnconfigure(3,weight=1)
+        frame1.columnconfigure(4,weight=1)
+
+        count = 0
+
+        def Switch_To_Panel(proposition):
                 controller.Selected_Proposition=proposition
                 controller.show_frame(Page_Reponses)
-            button = Button(self, text=prop.question,
+
+        for prop in controller.bdd_propositions.Propositions:
+            
+            button = Button(frame1, text=prop.question,
                             command=lambda i=prop: Switch_To_Panel(i))
-            button.pack()
+
+            #button.pack(padx=5, pady=5)
+            button.grid(row=count//5, column=count%5,padx=5, pady=5,sticky='ew')
+            if count%5==0:
+                frame1.rowconfigure(count//5,weight=1)
+
+            count += 1
 
     def refresh(self,controller):
         pass
