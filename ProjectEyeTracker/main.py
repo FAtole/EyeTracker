@@ -1,5 +1,5 @@
 from sqlite3 import Row
-from tkinter import Button, Frame,  Tk, Label
+from tkinter import Button, Entry, Frame, Text,  Tk, Label
 from reader_csv import Load_CSV
 from widget_info import Widget_info
 
@@ -25,13 +25,13 @@ class Window(Tk):
         # cree le container où on va mettre les frames
         self.container = Frame(self,bg="green")
         #self.container.grid(row=0,column=0,sticky='nsew')
-        self.container.pack(side="top", fill="both", expand = True)
+        self.container.pack( fill="both", expand = True)
         #Poids dans le container
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (Page_Accueil, Page_Reponses):
+        for F in (Page_Accueil, Page_Reponses,Page_Add_Proposition):
             #cree les différentes frames
             frame = F( self)
             self.frames[F] = frame
@@ -51,7 +51,6 @@ class Page_Accueil(Frame):
     
     def __init__(self,  controller):
         Frame.__init__(self,controller.container)
-        self.config(bg='blue')
         frame1 = Frame(self,relief="groove", borderwidth=2)
         #frame1.grid(row=0,column=0,sticky='nsew',pady=5,padx=5)
         frame1.pack(fill="both",expand=True,side='top',pady=5,padx=5)
@@ -85,9 +84,81 @@ class Page_Accueil(Frame):
 
             count += 1
 
-        button_ajouter =Button(self,text ="Ajouter une question")
+        button_ajouter =Button(self,text ="Ajouter une question",
+                            command=lambda: controller.show_frame(Page_Add_Proposition))
         button_ajouter.pack(pady=5,padx=5)
         
+
+    def refresh(self,controller):
+        pass
+
+
+class Page_Add_Proposition(Frame):
+    
+    def __init__(self,  controller):
+        Frame.__init__(self,controller.container)
+        self.max_de_reponses=4
+        self.nbr_de_reponse_actuel=2
+        self.longeur_max_question =50
+
+        # frame  total
+        frame = Frame(self)
+        # frame pour la Question
+        Label(frame,text="Question :").pack(anchor="w")
+        # frame saisie
+        frame_question_saisie = Frame(frame,padx=15,pady=5)
+        text_question=Text(frame_question_saisie,height=1, width=40)
+        text_question.pack(side='left')
+        nbr_char =Label(frame_question_saisie,text=0)
+        nbr_char.pack()
+
+        def my_upd(value):
+            my_str=text_question.get('1.0','end-1c')
+            char_numbers=len(my_str)
+            nbr_char.config(text=str(char_numbers))  
+            if(char_numbers > self.longeur_max_question-1):# supprime si c'est trop long
+                text_question.delete('end-2c') 
+
+        text_question.bind('<KeyRelease>',my_upd) #appel quand on appuie sur le clavier
+        
+        frame_question_saisie.pack()
+
+        # frame pour les Réponses
+        # frame  Titre + add reponse
+        frame_reponses_titre = Frame(frame)
+        frame_reponses_titre.pack(fill='both')
+        Label(frame_reponses_titre,text="Réponse :").pack(side='left', anchor="w")
+        Button(frame_reponses_titre,text="+",command=self.add_reponse).pack(side='right',anchor='e')
+        frame_reponses_titre.pack()
+
+        self.frame_reponses = Frame(frame,padx=5,pady=5)
+        reponse1=Entry(self.frame_reponses,textvariable="Reponse", width=30).pack(side='top',padx=5,pady=5,anchor='w')
+        reponse2=Entry(self.frame_reponses,textvariable="Reponse", width=30).pack(side='top',padx=5,pady=5,anchor='w')
+
+        self.frame_reponses.pack()
+
+        # frame  Boutons
+        frame_button = Frame(frame)
+        frame_button.pack(fill='both')
+        Button(frame_button,text="Annuler",command=lambda: controller.show_frame(Page_Accueil)).pack(side='left',fill='both',expand=True)
+        Button(frame_button,text="Valider").pack(side='right',fill='both',expand=True)
+        frame_button.pack(pady=20,padx=20)
+
+        frame.pack(expand=True)
+
+    def add_reponse(self):
+        if self.nbr_de_reponse_actuel<self.max_de_reponses:
+            frame =Frame(self.frame_reponses)
+            Entry(frame,textvariable="Reponse", width=30).pack(side='left', anchor='w',padx=5,pady=5)
+            Button(frame,text="-",command=lambda i=frame :self.remove_reponse(i)).pack(side='right',anchor='e',padx=5,pady=5)
+            frame.pack(fill='y')
+            self.frame_reponses.pack()
+            self.nbr_de_reponse_actuel += 1
+
+    def remove_reponse(self,frame):
+        frame.pack_forget()
+        self.nbr_de_reponse_actuel -= 1
+        return self.frame_reponses.pack()
 
     def refresh(self,controller):
         pass
@@ -160,7 +231,6 @@ class Page_Reponses(Frame):
         button1 = Button(self, text="Retour",
                             command=lambda: controller.show_frame(Page_Accueil))
         button1.grid(column=1, row=0,sticky="E")
-
 
     def display_2_reponses(self,prop) :
         # On configure les poids
