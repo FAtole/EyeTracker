@@ -1,6 +1,7 @@
 from sqlite3 import Row
-from tkinter import Button, Frame, Grid, Tk, Label
+from tkinter import Button, Frame,  Tk, Label
 from reader_csv import Load_CSV
+from widget_info import Widget_info
 
 # On définit une classe fenêtre 
 class Window(Tk):
@@ -72,9 +73,13 @@ class Page_Accueil(Frame):
             
             button = Button(frame1, text=prop.question,
                             command=lambda i=prop: Switch_To_Panel(i))
-
+            info = "Reponses :"
+            for reponse in prop.reponses:
+                info +="\n\t"+reponse
+            button_ttp = Widget_info(button, info)
             #button.pack(padx=5, pady=5)
             button.grid(row=count//5, column=count%5,padx=5, pady=5,sticky='ew')
+
             if count%5==0:
                 frame1.rowconfigure(count//5,weight=1)
 
