@@ -197,12 +197,15 @@ class Page_Add_Proposition(Frame):
         l = Label(win, text="La proposition a bien été enregisté !")
         l.grid(row=0, column=0,columnspan=2,sticky='nswe')
 
-        b = Button(win, text="Retour \n à l'accueil", command=master.show_frame(Page_Accueil))
+        b = Button(win, text="Retour \n à l'accueil", command=lambda i=master,w=win,p=Page_Accueil : self.Go_to_Page_(i,w,p))
         b.grid(row=1, column=0,sticky='nswe')
 
-        d = Button(win, text="Ouvrir avec \n l'eye Tracker")
+        d = Button(win, text="Ouvrir avec \n l'eye Tracker",command=lambda i=master,w=win,p=Page_Reponses : self.Go_to_Page_(i,w,p))
         d.grid(row=1, column=1,sticky='nswe')
 
+    def Go_to_Page_(self,controller,window,Page):
+        window.destroy()
+        controller.show_frame(Page)
 
     def validate(self,controller):
         row=[]
