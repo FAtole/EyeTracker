@@ -8,5 +8,11 @@ class Proposition:
     def Nbr_Reponses(self) -> int:
         return len(self.reponses)
 
+    def Get_row(self):
+        row=[self.question]
+        for i in self.reponses:
+            row.append(i)
+        return row
+
     def __str__(self):
         return "Question : "+self.question+";Reponses : "+str(self.reponses)

@@ -26,4 +26,14 @@ class Load_CSV:
             questions.append(prop.question)
         return questions
 
+    def Add_Proposition(self,proposition):
+        self.Propositions.insert(0,proposition)
 
+
+    def Save(self):
+        with open(self.emplacement_fichier_csv, 'w', newline='',encoding='utf-8') as csvfile:
+            fieldnames = ['Question','Reponse1','Reponse2','Reponse3','Reponse4']
+            writer = csv.writer(csvfile)
+            writer.writerow(fieldnames)
+            for prop  in self.Propositions:
+                writer.writerow(prop.Get_row())
