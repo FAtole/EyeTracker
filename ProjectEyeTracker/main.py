@@ -68,7 +68,7 @@ class Page_Accueil(Frame):
 
         count = 0
 
-        def Switch_To_Panel(proposition):
+        def Switch_To_Panel(proposition) -> None:
                 controller.Selected_Proposition=proposition
                 controller.show_frame(Page_Reponses)
 
@@ -79,7 +79,7 @@ class Page_Accueil(Frame):
             info = "Reponses :"
             for reponse in prop.reponses:
                 info +="\n\t"+reponse
-            button_ttp = Widget_info(button, info)
+            Widget_info(button, info)
             #button.pack(padx=5, pady=5)
             button.grid(row=count//5, column=count%5,padx=5, pady=5,sticky='ew')
 
@@ -362,7 +362,7 @@ class Page_Reponses(Frame):
 
 def start_application() -> Window:
     app = Window()
-    return app # return application
+    return app 
 
 if __name__ == "__main__" :
     start_application().mainloop()

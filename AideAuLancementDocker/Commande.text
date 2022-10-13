@@ -7,3 +7,8 @@ docker run -it --name eyetracker -e DISPLAY=10.41.14.85:0 -v C:\Users\anato:\ana
 
 docker exec -ti eyetracker bash
 docker stop eyetracker
+
+//docker jenkins
+docker pull jenkins/jenkins:lts-jdk11
+docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+docker logs id
