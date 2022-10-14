@@ -25,10 +25,10 @@ class Widget_info(object):
         self.id = self.widget.after(self.temps_avant_affichage, self.afficher_info)
 
     def fin_attente_affichage(self):
-        id = self.id
+        id2 = self.id
         self.id = None
-        if id:
-            self.widget.after_cancel(id)
+        if id2:
+            self.widget.after_cancel(id2)
 
     def afficher_info(self, event=None):
         x = y = 0
@@ -50,18 +50,3 @@ class Widget_info(object):
         self.tw= None
         if tw:
             tw.destroy()
-
-
-"""# testing ...
-if __name__ == '__main__':
-    root = tk.Tk()
-    btn1 = tk.Button(root, text="button 1")
-    btn1.pack(padx=10, pady=5)
-    button1_ttp = Widget_info(btn1, "Question : Comment vas-tu ? \n Reponses :\n\tBien\n\tFatigué ")
-    btn2 = tk.Button(root, text="button 2")
-    btn2.pack(padx=10, pady=5)
-    button2_ttp = Widget_info(btn2, \
-    "First thing's first, I'm the realest. Drop this and let the whole world "
-    "feel it. And I'm still in the Murda Bizness. I could hold you down, like "
-    "I'm givin' lessons in  physics. You should want a bad Vic like this.")
-    root.mainloop()"""

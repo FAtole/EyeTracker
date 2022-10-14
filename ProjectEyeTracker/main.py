@@ -230,7 +230,6 @@ class page_modifie_proposition(Frame):
         self.reponses_entry.clear()
         self.proposition = controller.bdd_propositions.Get_Proposition(controller.Selected_index) if controller.Selected_index!=None else None
         self.nbr_de_reponse_actuel=len(self.proposition.reponses) if self.proposition !=None else 2
-        print(self.nbr_de_reponse_actuel)
         self.on_Display(controller)
 
     def validate(self,controller):
@@ -322,11 +321,9 @@ class page_add_proposition(Frame):
             frame.pack(fill='y')
             self.frame_reponses.pack()
             self.nbr_de_reponse_actuel += 1
-            print(self.reponses_entry)
 
     def remove_reponse(self,frame,reponse):
         self.reponses_entry.remove(reponse)
-        print(self.reponses_entry)
         frame.pack_forget()
         self.nbr_de_reponse_actuel -= 1
         return self.frame_reponses.pack()
@@ -402,39 +399,6 @@ class page_reponses(Frame):
             else :
                 print("Erreur il doit y avoir entre 2 et 4 réponses")
                 self.display_default()
-
-        """def motion(event):
-            x,y = self.winfo_pointerx()- self.winfo_rootx(), self.winfo_pointery() - self.winfo_rooty()
-            w_max,h_max =self.winfo_width(),self.winfo_height()
-            w_separtion,h_separtion = w_max//2,h_max- Reponse_4.winfo_height()
-            
-            if 0 <= x and x <= w_separtion and 0 <=y and y <= h_separtion :
-                Reponse_1.config(bg="red")
-                Reponse_2.config(bg="white")
-                Reponse_3.config(bg="white")
-                Reponse_4.config(bg="white")
-            elif 0 <= x and x <= w_separtion and y > h_separtion and y <=h_max :
-                Reponse_4.config(bg="red")
-                Reponse_1.config(bg="white")
-                Reponse_2.config(bg="white")
-                Reponse_3.config(bg="white")
-            elif x<=w_max and x > w_separtion and 0 <=y and y <= h_separtion :
-                Reponse_2.config(bg="red")
-                Reponse_1.config(bg="white")
-                Reponse_4.config(bg="white")
-                Reponse_3.config(bg="white")
-            elif x<=w_max and x > w_separtion and y > h_separtion and y <=h_max :
-                Reponse_3.config(bg="red")
-                Reponse_1.config(bg="white")
-                Reponse_2.config(bg="white")
-                Reponse_4.config(bg="white")
-            else :
-                Reponse_1.config(bg="white")
-                Reponse_2.config(bg="white")
-                Reponse_3.config(bg="white")
-                Reponse_4.config(bg="white")
-            
-        self.bind('<Motion>', motion)"""
 
         button1 = Button(self, text="Retour",
                             command=lambda: controller.show_frame(page_accueil))
