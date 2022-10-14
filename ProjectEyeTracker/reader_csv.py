@@ -29,6 +29,8 @@ class Load_CSV:
     def Add_Proposition(self,proposition):
         self.Propositions.insert(0,proposition)
 
+    def Remove_proposition(self,index):
+        self.Propositions.pop(index)
 
     def Save(self):
         with open(self.emplacement_fichier_csv, 'w', newline='',encoding='utf-8') as csvfile:

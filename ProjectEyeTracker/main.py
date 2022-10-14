@@ -1,6 +1,6 @@
 from sqlite3 import Row
-from tkinter import Button, Entry, Frame, Text,  Tk, Label, Toplevel
-from tkinter.messagebox import showinfo
+from tkinter import Button, Entry, Frame, PhotoImage, Text,  Tk, Label, Toplevel
+from tkinter.messagebox import askyesno, showinfo
 from proposition import Proposition
 from reader_csv import Load_CSV
 from widget_info import Widget_info
@@ -23,6 +23,10 @@ class Window(Tk):
 
         # On ajoute un titre à la fenêtre
         self.title("Eye Tracker")
+
+        # on charge les images icons
+        self.image_modifier = PhotoImage(file=r'images\bouton-modifier.png').subsample(26, 26)
+        self.image_delete = PhotoImage(file=r'images\delete.png').subsample(26, 26)
         
         # cree le container où on va mettre les frames
         self.container = Frame(self,bg="green")
@@ -33,14 +37,14 @@ class Window(Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (Page_Accueil, Page_Reponses,Page_Add_Proposition):
+        for F in (page_accueil, page_reponses,page_add_proposition):
             #cree les différentes frames
             frame = F( self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
         #Affiche la page d'accueil
-        self.show_frame(Page_Accueil)
+        self.show_frame(page_accueil)
 
     def show_frame(self, cont):
         for frame in self.frames.values():
@@ -49,7 +53,7 @@ class Window(Tk):
         frame.refresh(self)
         frame.grid()
 
-class Page_Accueil(Frame):
+class page_accueil(Frame):
     
     def __init__(self,  controller):
         Frame.__init__(self,controller.container)
@@ -68,37 +72,53 @@ class Page_Accueil(Frame):
 
         count = 0
 
-        def Switch_To_Panel(proposition) -> None:
-                controller.Selected_Proposition=proposition
-                controller.show_frame(Page_Reponses)
-
+        
         for prop in controller.bdd_propositions.Propositions:
-            
-            button = Button(self.frame, text=prop.question,
-                            command=lambda i=prop: Switch_To_Panel(i))
+            frame = Frame(self.frame)
+            button_select = Button(frame, text=prop.question,
+                            command=lambda i=prop,c=controller: self.Switch_To_Panel(i,c))
             info = "Reponses :"
             for reponse in prop.reponses:
                 info +="\n\t"+reponse
-            Widget_info(button, info)
-            #button.pack(padx=5, pady=5)
-            button.grid(row=count//5, column=count%5,padx=5, pady=5,sticky='ew')
+            Widget_info(button_select, info)
+            button_select.pack(side='left')
 
+            button_modifier = Button(frame, image=controller.image_modifier)
+            button_modifier.pack(side='left')
+
+            button_delete = Button(frame, image=controller.image_delete,command= lambda i=count,c=controller:self.delete_proposition(i,c))
+            button_delete.pack(side='left')
+
+            frame.grid(row=count//5, column=count%5,padx=5, pady=5,sticky='ew')
+            
             if count%5==0:
                 self.frame.rowconfigure(count//5,weight=1)
 
             count += 1
 
         self.button_ajouter =Button(self,text ="Ajouter une question",
-                            command=lambda: controller.show_frame(Page_Add_Proposition))
+                            command=lambda: controller.show_frame(page_add_proposition))
         self.button_ajouter.pack(pady=5,padx=5)
    
+    def Switch_To_Panel(self,proposition,controller) :
+        controller.Selected_Proposition=proposition
+        return controller.show_frame(page_reponses)
+            
+    def delete_proposition(self,index,controller) :
+        answer = askyesno(title='Confirmation',
+                    message='Êtes-vous sûr de vouloir supprimer cette proposition ?')
+        if answer:
+            controller.bdd_propositions.Remove_proposition(index)
+            controller.bdd_propositions.Save()
+            self.refresh(controller)
+
     def refresh(self,controller):
         self.frame.pack_forget()
         self.button_ajouter.pack_forget()
         self.onDisplay(controller)
 
 
-class Page_Add_Proposition(Frame):
+class page_add_proposition(Frame):
     
     def __init__(self,  controller):
         Frame.__init__(self,controller.container)
@@ -153,7 +173,7 @@ class Page_Add_Proposition(Frame):
         # frame  Boutons
         frame_button = Frame(self.frame)
         frame_button.pack(fill='both')
-        Button(frame_button,text="Annuler",command=lambda: controller.show_frame(Page_Accueil)).pack(side='left',fill='both',expand=True)
+        Button(frame_button,text="Annuler",command=lambda: controller.show_frame(page_accueil)).pack(side='left',fill='both',expand=True)
         Button(frame_button,text="Valider",command=lambda i=controller :self.validate(i)).pack(side='right',fill='both',expand=True)
         frame_button.pack(pady=20,padx=20)
 
@@ -197,15 +217,15 @@ class Page_Add_Proposition(Frame):
         l = Label(win, text="La proposition a bien été enregisté !")
         l.grid(row=0, column=0,columnspan=2,sticky='nswe')
 
-        b = Button(win, text="Retour \n à l'accueil", command=lambda i=master,w=win,p=Page_Accueil : self.Go_to_Page_(i,w,p))
+        b = Button(win, text="Retour \n à l'accueil", command=lambda i=master,w=win,p=page_accueil : self.Go_to_Page_(i,w,p))
         b.grid(row=1, column=0,sticky='nswe')
 
-        d = Button(win, text="Ouvrir avec \n l'eye Tracker",command=lambda i=master,w=win,p=Page_Reponses : self.Go_to_Page_(i,w,p))
+        d = Button(win, text="Ouvrir avec \n l'eye Tracker",command=lambda i=master,w=win,p=page_reponses : self.Go_to_Page_(i,w,p))
         d.grid(row=1, column=1,sticky='nswe')
 
-    def Go_to_Page_(self,controller,window,Page):
+    def Go_to_Page_(self,controller,window,page):
         window.destroy()
-        controller.show_frame(Page)
+        controller.show_frame(page)
 
     def validate(self,controller):
         row=[]
@@ -220,7 +240,7 @@ class Page_Add_Proposition(Frame):
 
 
 
-class Page_Reponses(Frame):
+class page_reponses(Frame):
 
     def __init__(self,  controller):
         Frame.__init__(self, controller.container)
@@ -285,7 +305,7 @@ class Page_Reponses(Frame):
         self.bind('<Motion>', motion)"""
 
         button1 = Button(self, text="Retour",
-                            command=lambda: controller.show_frame(Page_Accueil))
+                            command=lambda: controller.show_frame(page_accueil))
         button1.grid(column=1, row=0,sticky="E")
 
     def display_2_reponses(self,prop) :
@@ -294,11 +314,11 @@ class Page_Reponses(Frame):
         self.rowconfigure(2, weight=0)
 
         # Les Rectangles Reponses
-        Reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
     def display_4_reponses(self,prop):
         # On configure les poids
@@ -306,17 +326,17 @@ class Page_Reponses(Frame):
         self.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
-        Reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_4 = Label(self, text=prop.reponses[3],bg="white", fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_4 = Label(self, text=prop.reponses[3],bg="white", fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
     def display_3_reponses(self,prop):
         # On configure les poids
@@ -324,14 +344,14 @@ class Page_Reponses(Frame):
         self.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
-        Reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_3.grid(column=0, row=2,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_3.grid(column=0, row=2,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
 
     def display_default(self):
         # On configure les poids
@@ -339,17 +359,17 @@ class Page_Reponses(Frame):
         self.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
-        Reponse_1 = Label(self, text="Reponse 1",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_1 = Label(self, text="Reponse 1",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_2 = Label(self, text="Reponse 2",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_2 = Label(self, text="Reponse 2",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_3 = Label(self, text="Reponse 3",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_3 = Label(self, text="Reponse 3",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
-        Reponse_4 = Label(self, text="Reponse 4",bg="white", fg="black", font=('Times 28'),borderwidth=2, relief="solid")
-        Reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
+        reponse_4 = Label(self, text="Reponse 4",bg="white", fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
     def remove_reponses(self):
         for w in self.grid_slaves():
