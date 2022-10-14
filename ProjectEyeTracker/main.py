@@ -1,5 +1,5 @@
 from sqlite3 import Row
-from tkinter import Button, Entry, Frame, PhotoImage, Text,  Tk, Label, Toplevel
+from tkinter import Button, Entry, Frame, INSERT, PhotoImage, Text,  Tk, Label, Toplevel
 from tkinter.messagebox import askyesno, showinfo
 from proposition import Proposition
 from reader_csv import Load_CSV
@@ -11,6 +11,7 @@ class Window(Tk):
     def __init__(self):
         #on appelle la base de donnée des questions
         self.bdd_propositions = Load_CSV()
+        self.Selected_index=None
         self.Selected_Proposition = None
 
         #on initialise la fentre
@@ -37,7 +38,7 @@ class Window(Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (page_accueil, page_reponses,page_add_proposition):
+        for F in (page_accueil, page_reponses,page_add_proposition,page_modifie_proposition):
             #cree les différentes frames
             frame = F( self)
             self.frames[F] = frame
@@ -76,14 +77,14 @@ class page_accueil(Frame):
         for prop in controller.bdd_propositions.Propositions:
             frame = Frame(self.frame)
             button_select = Button(frame, text=prop.question,
-                            command=lambda i=prop,c=controller: self.Switch_To_Panel(i,c))
+                            command=lambda i=prop,c=controller: self.Switch_To_Panel(i,c,page_reponses))
             info = "Reponses :"
             for reponse in prop.reponses:
                 info +="\n\t"+reponse
             Widget_info(button_select, info)
             button_select.pack(side='left')
 
-            button_modifier = Button(frame, image=controller.image_modifier)
+            button_modifier = Button(frame, image=controller.image_modifier,command=lambda i=count, c=controller: self.goto_modifie_proposition(i,c))
             button_modifier.pack(side='left')
 
             button_delete = Button(frame, image=controller.image_delete,command= lambda i=count,c=controller:self.delete_proposition(i,c))
@@ -97,13 +98,17 @@ class page_accueil(Frame):
             count += 1
 
         self.button_ajouter =Button(self,text ="Ajouter une question",
-                            command=lambda: controller.show_frame(page_add_proposition))
+                            command=lambda c=controller: self.Switch_To_Panel(None,c,page_add_proposition))
         self.button_ajouter.pack(pady=5,padx=5)
    
-    def Switch_To_Panel(self,proposition,controller) :
+    def Switch_To_Panel(self,proposition,controller,page) :
         controller.Selected_Proposition=proposition
-        return controller.show_frame(page_reponses)
-            
+        return controller.show_frame(page)
+    
+    def goto_modifie_proposition(self,index,controller):
+        controller.Selected_index =index
+        return controller.show_frame(page_modifie_proposition)
+
     def delete_proposition(self,index,controller) :
         answer = askyesno(title='Confirmation',
                     message='Êtes-vous sûr de vouloir supprimer cette proposition ?')
@@ -116,6 +121,133 @@ class page_accueil(Frame):
         self.frame.pack_forget()
         self.button_ajouter.pack_forget()
         self.onDisplay(controller)
+
+
+class page_modifie_proposition(Frame):
+    
+    def __init__(self,  controller):
+        Frame.__init__(self,controller.container)
+        self.proposition = controller.bdd_propositions.Get_Proposition(controller.Selected_index) if controller.Selected_index!=None else None
+        self.max_de_reponses=4
+        self.nbr_de_reponse_actuel=len(self.proposition.reponses) if self.proposition !=None else 2
+        self.longeur_max_question =50
+        self.reponses_entry =[] 
+
+
+        self.on_Display(controller)
+        
+    def on_Display(self,controller):
+        # frame  total
+        self.frame = Frame(self)
+        # frame pour la Question
+        Label(self.frame,text="Question :").pack(anchor="w")
+        # frame saisie
+        frame_question_saisie = Frame(self.frame,padx=15,pady=5)
+        self.text_question=Text(frame_question_saisie,height=1, width=40)
+        if self.proposition != None :
+            self.text_question.insert(INSERT,self.proposition.question)
+       
+        self.text_question.pack(side='left')
+        nbr_char =Label(frame_question_saisie,text=0)
+        nbr_char.pack()
+
+        def char_counter(value):
+            my_str=self.text_question.get('1.0','end-1c')
+            char_numbers=len(my_str)
+            nbr_char.config(text=str(char_numbers))  
+            if(char_numbers > self.longeur_max_question-1):# supprime si c'est trop long
+                self.text_question.delete('end-2c') 
+
+        self.text_question.bind('<KeyRelease>',char_counter) #appel quand on appuie sur le clavier
+        
+        frame_question_saisie.pack()
+
+        # frame pour les Réponses
+        # frame  Titre + add reponse
+        frame_reponses_titre = Frame(self.frame)
+        frame_reponses_titre.pack(fill='both')
+        Label(frame_reponses_titre,text="Réponse :").pack(side='left', anchor="w")
+        Button(frame_reponses_titre,text="+",command=self.add_reponse).pack(side='right',anchor='e')
+        frame_reponses_titre.pack()
+
+        self.frame_reponses = Frame(self.frame,padx=5,pady=5)
+
+        reponse1=Entry(self.frame_reponses, width=30)
+        if self.proposition != None :
+            reponse1.insert(INSERT,self.proposition.reponses[0])
+       
+        reponse1.pack(side='top',padx=5,pady=5,anchor='w')
+        reponse2=Entry(self.frame_reponses, width=30)
+        if self.proposition != None :
+            reponse2.insert(INSERT,self.proposition.reponses[1])
+        reponse2.pack(side='top',padx=5,pady=5,anchor='w')
+
+        if self.proposition != None and self.nbr_de_reponse_actuel>2 :
+            for reponse in self.proposition.reponses[2:] :
+                frame =Frame(self.frame_reponses)
+                reponse_entry =Entry(frame, width=30)
+                reponse_entry.insert(INSERT,reponse)
+
+                reponse_entry.pack(side='left', anchor='w',padx=5,pady=5)
+                self.reponses_entry.append(reponse_entry)
+
+                Button(frame,text="-",command=lambda i=frame,j=reponse_entry :self.remove_reponse(i,j)).pack(side='right',anchor='e',padx=5,pady=5)
+                frame.pack(fill='y')
+
+        self.reponses_entry.append(reponse1)
+        self.reponses_entry.append(reponse2)
+        self.frame_reponses.pack()
+
+        # frame  Boutons
+        frame_button = Frame(self.frame)
+        frame_button.pack(fill='both')
+        Button(frame_button,text="Annuler",command=lambda: controller.show_frame(page_accueil)).pack(side='left',fill='both',expand=True)
+        Button(frame_button,text="Valider",command=lambda i=controller :self.validate(i)).pack(side='right',fill='both',expand=True)
+        frame_button.pack(pady=20,padx=20)
+
+        self.frame.pack(expand=True)
+
+    def add_reponse(self):
+        if self.nbr_de_reponse_actuel<self.max_de_reponses:
+            frame =Frame(self.frame_reponses)
+            reponse =Entry(frame, width=30)
+            reponse.pack(side='left', anchor='w',padx=5,pady=5)
+            self.reponses_entry.append(reponse)
+
+            Button(frame,text="-",command=lambda i=frame,j=reponse :self.remove_reponse(i,j)).pack(side='right',anchor='e',padx=5,pady=5)
+            frame.pack(fill='y')
+            self.frame_reponses.pack()
+            self.nbr_de_reponse_actuel += 1
+
+    def remove_reponse(self,frame,reponse):
+        self.reponses_entry.remove(reponse)
+        frame.pack_forget()
+        self.nbr_de_reponse_actuel -= 1
+        return self.frame_reponses.pack()
+
+    def refresh(self,controller):
+        self.frame.pack_forget()
+        self.reponses_entry.clear()
+        self.proposition = controller.bdd_propositions.Get_Proposition(controller.Selected_index) if controller.Selected_index!=None else None
+        self.nbr_de_reponse_actuel=len(self.proposition.reponses) if self.proposition !=None else 2
+        print(self.nbr_de_reponse_actuel)
+        self.on_Display(controller)
+
+    def validate(self,controller):
+        row=[]
+        row.append(self.text_question.get("1.0","end-1c"))
+        for rep in self.reponses_entry:
+            row.append(rep.get())
+        controller.Selected_Proposition=Proposition(row)
+        controller.bdd_propositions.Modify_proposition(controller.Selected_index,controller.Selected_Proposition)
+        controller.bdd_propositions.Save()
+
+        answer = askyesno(title='Confirmation',
+                    message='Voulez-vous lancer l\'eye tracker ?')
+        if answer:
+            controller.show_frame(page_reponses)
+        else :
+            controller.show_frame(page_accueil)
 
 
 class page_add_proposition(Frame):

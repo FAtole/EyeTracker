@@ -32,6 +32,9 @@ class Load_CSV:
     def Remove_proposition(self,index):
         self.Propositions.pop(index)
 
+    def Modify_proposition(self,index,proposition):
+        self.Propositions[index] = proposition
+
     def Save(self):
         with open(self.emplacement_fichier_csv, 'w', newline='',encoding='utf-8') as csvfile:
             fieldnames = ['Question','Reponse1','Reponse2','Reponse3','Reponse4']
