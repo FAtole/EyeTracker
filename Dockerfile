@@ -10,8 +10,8 @@ RUN apt-get update -y
 RUN apt-get install tk -y
 
 WORKDIR /usr/app/src
-COPY projecteyetracker ./
+COPY projecteyetracker ./projecteyetracker
 
 
-CMD ["main.py"]
+CMD ["./projecteyetracker/src/main.py"]
 ENTRYPOINT ["python"]

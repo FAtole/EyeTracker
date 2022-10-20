@@ -1,10 +1,22 @@
 pipeline {
-  agent any
-  stages {
-    stage('hello') {
-      steps {
-        echo "hello"
-      }
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/FAtole/EyeTracker.git']]])
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'python ./Tests/test.py'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'cd ./Tests'
+                sh 'python testGui.py'
+            }
+        }
     }
-  }
 }

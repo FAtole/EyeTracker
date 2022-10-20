@@ -6,7 +6,7 @@ from proposition import Proposition
 
 class Load_CSV:
     def __init__(self):
-        self.emplacement_fichier_csv = "question_reponses.csv"
+        self.emplacement_fichier_csv = "projecteyetracker/asset/data/question_reponses.csv"
         self.Propositions = []
         self.nbr_questions = 0
         with open(self.emplacement_fichier_csv, 'r', encoding='utf-8') as f:

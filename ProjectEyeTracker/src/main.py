@@ -22,12 +22,17 @@ class Window(Tk):
         w, h = self.winfo_screenwidth()/2, self.winfo_screenheight()/2
         self.geometry("%dx%d+0+0" % (w, h))
 
+        # On definit le font
+        self.font= ('Times 30') # dans l'eye tracker
+        self.option_add( "*font", "Times 10" )
+
+
         # On ajoute un titre à la fenêtre
         self.title("Eye Tracker")
 
         # on charge les images icons
-        self.image_modifier = PhotoImage(file=r'images\bouton-modifier.png').subsample(26, 26)
-        self.image_delete = PhotoImage(file=r'images\delete.png').subsample(26, 26)
+        self.image_modifier = PhotoImage(file='projecteyetracker/asset/images/bouton-modifier.png').subsample(26, 26)
+        self.image_delete = PhotoImage(file='projecteyetracker/asset/images/delete.png').subsample(26, 26)
         
         # cree le container où on va mettre les frames
         self.container = Frame(self,bg="green")
@@ -76,7 +81,7 @@ class page_accueil(Frame):
         
         for prop in controller.bdd_propositions.Propositions:
             frame = Frame(self.frame)
-            button_select = Button(frame, text=prop.question,
+            button_select = Button(frame, text=prop.question, 
                             command=lambda i=prop,c=controller: self.Switch_To_Panel(i,c,page_reponses))
             info = "Reponses :"
             for reponse in prop.reponses:
@@ -84,10 +89,12 @@ class page_accueil(Frame):
             Widget_info(button_select, info)
             button_select.pack(side='left')
 
-            button_modifier = Button(frame, image=controller.image_modifier,command=lambda i=count, c=controller: self.goto_modifie_proposition(i,c))
+            button_modifier = Button(frame, image=controller.image_modifier, 
+                               command=lambda i=count, c=controller: self.goto_modifie_proposition(i,c))
             button_modifier.pack(side='left')
 
-            button_delete = Button(frame, image=controller.image_delete,command= lambda i=count,c=controller:self.delete_proposition(i,c))
+            button_delete = Button(frame, image=controller.image_delete, 
+                            command= lambda i=count,c=controller:self.delete_proposition(i,c))
             button_delete.pack(side='left')
 
             frame.grid(row=count//5, column=count%5,padx=5, pady=5,sticky='ew')
@@ -383,88 +390,88 @@ class page_reponses(Frame):
 
         # Le Rectangle Question
         question =  controller.Selected_Proposition.question if controller.Selected_Proposition !=None else "Question"
-        self.Question = Label(self, text=question,bg="yellow", fg="black", font=('Times 28'))
+        self.Question = Label(self, text=question,bg="yellow", fg="black", font=controller.font)
         self.Question.grid(column=0, row=0,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
 
         # Les reponses
         if controller.Selected_Proposition ==None :
-            self.display_default()
+            self.display_default(controller)
         else :
             if len(controller.Selected_Proposition.reponses) == 2:
-                self.display_2_reponses(controller.Selected_Proposition)
+                self.display_2_reponses(controller.Selected_Proposition,controller)
             elif len(controller.Selected_Proposition.reponses) == 3:
-                self.display_3_reponses(controller.Selected_Proposition)
+                self.display_3_reponses(controller.Selected_Proposition,controller)
             elif len(controller.Selected_Proposition.reponses) == 4:
-                self.display_4_reponses(controller.Selected_Proposition)
+                self.display_4_reponses(controller.Selected_Proposition,controller)
             else :
                 print("Erreur il doit y avoir entre 2 et 4 réponses")
-                self.display_default()
+                self.display_default(controller)
 
         button1 = Button(self, text="Retour",
                             command=lambda: controller.show_frame(page_accueil))
         button1.grid(column=1, row=0,sticky="E")
 
-    def display_2_reponses(self,prop) :
+    def display_2_reponses(self,prop,controller) :
         # On configure les poids
         self.rowconfigure(1, weight=10)
         self.rowconfigure(2, weight=0)
 
         # Les Rectangles Reponses
-        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-    def display_4_reponses(self,prop):
+    def display_4_reponses(self,prop,controller):
         # On configure les poids
         self.rowconfigure(1, weight=5)
         self.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
-        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_4 = Label(self, text=prop.reponses[3],bg="white", fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_4 = Label(self, text=prop.reponses[3],bg="white", fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
-    def display_3_reponses(self,prop):
+    def display_3_reponses(self,prop,controller):
         # On configure les poids
         self.rowconfigure(1, weight=5)
         self.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
-        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_3.grid(column=0, row=2,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
 
-    def display_default(self):
+    def display_default(self,controller):
         # On configure les poids
         self.rowconfigure(1, weight=5)
         self.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
-        reponse_1 = Label(self, text="Reponse 1",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_1 = Label(self, text="Reponse 1",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_2 = Label(self, text="Reponse 2",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_2 = Label(self, text="Reponse 2",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_3 = Label(self, text="Reponse 3",bg="white",fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_3 = Label(self, text="Reponse 3",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_4 = Label(self, text="Reponse 4",bg="white", fg="black", font=('Times 28'),borderwidth=2, relief="solid")
+        reponse_4 = Label(self, text="Reponse 4",bg="white", fg="black",font=controller.font,borderwidth=2, relief="solid")
         reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
     def remove_reponses(self):
