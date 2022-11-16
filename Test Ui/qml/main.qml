@@ -11,8 +11,7 @@ ApplicationWindow{
     title: qsTr("Home Page")
 
     // SET FLAGS
-    flags: Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.CustomizeWindowHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowTitleHint
-
+    flags: Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.CustomizeWindowHint | Qt.MSWindowsFixedSizeDialogHint 
     // SET MATERIAL STYLE
     Material.theme: Material.Dark
     Material.accent: Material.LightBlue
