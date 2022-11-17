@@ -1,6 +1,7 @@
 {
     "python.analysis.extraPaths": [
-        "./projecteyetracker/src"
+        "./projecteyetracker/src",
+        
     ],
     "qtForPython.designer.path": "d:\\python 3.9\\Lib\\site-packages\\PySide6\\designer.exe"
 }

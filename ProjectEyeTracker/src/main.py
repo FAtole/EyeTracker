@@ -1,5 +1,7 @@
+from ast import Lambda
+from random import randrange
 from sqlite3 import Row
-from tkinter import Button, Entry, Frame, INSERT, PhotoImage, Text,  Tk, Label, Toplevel
+from tkinter import Button, Canvas, Entry, Frame, INSERT, PhotoImage, Text,  Tk, Label, Toplevel
 from tkinter.messagebox import askyesno, showinfo
 from proposition import Proposition
 from reader_csv import Load_CSV
@@ -19,8 +21,11 @@ class Window(Tk):
 
         # On dimensionne la fenêtre         
         #self.state('zoomed') ## ne marche pas sur linux
-        w, h = self.winfo_screenwidth()/2, self.winfo_screenheight()/2
-        self.geometry("%dx%d+0+0" % (w, h))
+        self.w, self.h = self.winfo_screenwidth()/2, self.winfo_screenheight()/2
+        self.geometry("%dx%d+0+0" % (self.w, self.h))
+        #resize off
+        self.resizable(False,False)
+
 
         # On definit le font
         self.font= ('Times 30') # dans l'eye tracker
@@ -381,98 +386,192 @@ class page_reponses(Frame):
     def __init__(self,  controller):
         Frame.__init__(self, controller.container)
         self.onDisplay(controller)
+        self.action =None
         
     def onDisplay(self,controller):
-        # On configure les poids
+        # Canvas
         self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=1)
         self.rowconfigure(0, weight=1)
+        self.canvas = Canvas(self, width=controller.w, height=controller.h, borderwidth=0, highlightthickness=0)
 
+        # On configure les poids
+        self.canvas.columnconfigure(0, weight=1)
+        self.canvas.columnconfigure(1, weight=1)
+        self.canvas.rowconfigure(0, weight=1)
+
+        
         # Le Rectangle Question
         question =  controller.Selected_Proposition.question if controller.Selected_Proposition !=None else "Question"
-        self.Question = Label(self, text=question,bg="yellow", fg="black", font=controller.font)
-        self.Question.grid(column=0, row=0,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
+        text_question = self.canvas.create_text(controller.w//2, controller.h//11, text =question, font=controller.font)
+        x,y,w,h =self.canvas.bbox(text_question)
+        #self.Question = Label(self.canvas, text=question,bg="yellow", fg="black", font=controller.font)
+        #self.Question.grid(column=0, row=0,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
 
         # Les reponses
         if controller.Selected_Proposition ==None :
             self.display_default(controller)
         else :
             if len(controller.Selected_Proposition.reponses) == 2:
-                self.display_2_reponses(controller.Selected_Proposition,controller)
+                self.display_2_reponses(controller.Selected_Proposition,controller,h=h)
             elif len(controller.Selected_Proposition.reponses) == 3:
-                self.display_3_reponses(controller.Selected_Proposition,controller)
+                self.display_3_reponses(controller.Selected_Proposition,controller,h=h)
             elif len(controller.Selected_Proposition.reponses) == 4:
-                self.display_4_reponses(controller.Selected_Proposition,controller)
+                self.display_4_reponses(controller.Selected_Proposition,controller,h=h)
             else :
                 print("Erreur il doit y avoir entre 2 et 4 réponses")
                 self.display_default(controller)
 
-        button1 = Button(self, text="Retour",
+        button1 = Button(self.canvas, text="Retour",
                             command=lambda: controller.show_frame(page_accueil))
         button1.grid(column=1, row=0,sticky="E")
+        self.canvas.grid(sticky="NSEW")
+        
+        self.action=None
+        self.last_points =[]
+        
+        self.c=controller
+        self.Simulation_Regard()
+    
+    def Simulation_Regard(self):
+        controller =self.c
+        taille =len(self.last_points)
+        print(self.last_points)
+        zone_regard =160
+        if taille ==0:
+            x= randrange(controller.w)
+            y= randrange(controller.h)
+            id_pt=self.point(x,y,10)
+            self.last_points.append((x,y,id_pt,None))
+        else :
+            if taille >5:
+                x_,y_,id_p,id_l=self.last_points[0]
+                self.canvas.delete(id_p)
+                if id_l != None :self.canvas.delete(id_l)
+                self.last_points.pop(0)
+            taille = len(self.last_points)
+            x,y,id_point,idline=self.last_points[taille-1] # on regarde le dernier point
+            self.canvas.itemconfigure(id_point, fill="blue")#change de color
+            #on fait un premier deplacement
+            x_dep = randrange(zone_regard)-zone_regard//2
+            y_dep = randrange(zone_regard)-zone_regard//2
 
-    def display_2_reponses(self,prop,controller) :
+            x_tmp =x+x_dep
+            y_tmp =y+y_dep
+            #on recommence quand le deplacement n'est pas dans la fenetre
+            while (x_tmp<0 or x_tmp > controller.w or y_tmp<0 or y_tmp>controller.h):
+                x_dep = randrange(zone_regard)-zone_regard//2
+                y_dep = randrange(zone_regard)-zone_regard//2
+
+                x_tmp =x+x_dep
+                y_tmp =y+y_dep
+            
+            id_pt = self.point(x_tmp,y_tmp,10)
+            id_line = self.canvas.create_line(x,y, x_tmp,y_tmp)
+            self.last_points.append((x_tmp,y_tmp,id_pt,id_line))
+
+        self.action =self.after(2000,self.Simulation_Regard)
+
+    def point(self,x,y,rad):
+        cercle = self.canvas.create_oval(x-rad,y-rad,x+rad,y+rad,width=0,fill='red')
+        self.canvas.tag_raise(cercle)
+        return cercle
+
+    def display_2_reponses(self,prop,controller,h=72) :
         # On configure les poids
-        self.rowconfigure(1, weight=10)
-        self.rowconfigure(2, weight=0)
+        self.canvas.rowconfigure(1, weight=10)
+        self.canvas.rowconfigure(2, weight=0)
+        h=h+10
 
         # Les Rectangles Reponses
-        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        #reponse_1 = Label(self.canvas, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(0, h, controller.w//2, controller.h, fill="white")
+        self.canvas.create_text(controller.w//4, (controller.h-h)//2+h, text=prop.reponses[0], fill="black", font=controller.font)
 
-        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        #reponse_2 = Label(self.canvas, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(controller.w//2, h, controller.w, controller.h, fill="white")
+        self.canvas.create_text(controller.w//4*3, (controller.h-h)//2+h, text=prop.reponses[1], fill="black", font=controller.font)
 
-    def display_4_reponses(self,prop,controller):
+    def display_4_reponses(self,prop,controller,h=72):
         # On configure les poids
-        self.rowconfigure(1, weight=5)
-        self.rowconfigure(2, weight=5)
+        self.canvas.rowconfigure(1, weight=5)
+        self.canvas.rowconfigure(2, weight=5)
+
+        h=h+10
+        # Les Rectangles Reponses
+        #reponse_1 = Label(self.canvas, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(0, h, controller.w//2, (controller.h-h)//2+h, fill="white")
+        self.canvas.create_text(controller.w//4, (controller.h-h)//4+h, text=prop.reponses[0], fill="black", font=controller.font)
+
+        #reponse_2 = Label(self.canvas, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(controller.w//2, h, controller.w, (controller.h-h)//2+h, fill="white")
+        self.canvas.create_text(controller.w//4*3, (controller.h-h)//4+h, text=prop.reponses[1], fill="black", font=controller.font)
+
+        #reponse_3 = Label(self.canvas, text=prop.reponses[2],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(0, h+(controller.h-h)//2, controller.w//2, controller.h, fill="white")
+        self.canvas.create_text(controller.w//4, (controller.h-h)//4*3+h, text=prop.reponses[2], fill="black", font=controller.font)
+
+        #reponse_4 = Label(self.canvas, text=prop.reponses[3],bg="white", fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(controller.w//2,  h+(controller.h-h)//2, controller.w, controller.h, fill="white")
+        self.canvas.create_text(controller.w//4*3, (controller.h-h)//4*3+h, text=prop.reponses[3], fill="black", font=controller.font)
+
+    def display_3_reponses(self,prop,controller,h=72):
+        # On configure les poids
+        self.canvas.rowconfigure(1, weight=5)
+        self.canvas.rowconfigure(2, weight=5)
+        h=h+10
+        # Les Rectangles Reponses
+        #reponse_1 = Label(self.canvas, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(0, h, controller.w//2, (controller.h-h)//2+h, fill="white")
+        self.canvas.create_text(controller.w//4, (controller.h-h)//4+h, text=prop.reponses[0], fill="black", font=controller.font)
+
+        #reponse_2 = Label(self.canvas, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(controller.w//2, h, controller.w, (controller.h-h)//2+h, fill="white")
+        self.canvas.create_text(controller.w//4*3, (controller.h-h)//4+h, text=prop.reponses[1], fill="black", font=controller.font)
+
+        #reponse_3 = Label(self.canvas, text=prop.reponses[2],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        #reponse_3.grid(column=0, row=2,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(0, h+(controller.h-h)//2, controller.w, controller.h, fill="white")
+        self.canvas.create_text(controller.w//2, (controller.h-h)//4*3+h, text=prop.reponses[2], fill="black", font=controller.font)
+
+    def display_default(self,controller,h=72):
+        # On configure les poids
+        self.canvas.rowconfigure(1, weight=5)
+        self.canvas.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
-        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        """
+        reponse_1 = Label(self.canvas, text="Reponse 1",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        reponse_2 = Label(self.canvas, text="Reponse 2",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
+        reponse_3 = Label(self.canvas, text="Reponse 3",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
         reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
 
-        reponse_4 = Label(self, text=prop.reponses[3],bg="white", fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
-
-    def display_3_reponses(self,prop,controller):
-        # On configure les poids
-        self.rowconfigure(1, weight=5)
-        self.rowconfigure(2, weight=5)
-
+        reponse_4 = Label(self.canvas, text="Reponse 4",bg="white", fg="black",font=controller.font,borderwidth=2, relief="solid")
+        reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")"""
+        h=h+10
         # Les Rectangles Reponses
-        reponse_1 = Label(self, text=prop.reponses[0],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(0, h, controller.w//2, (controller.h-h)//2+h, fill="white")
+        self.canvas.create_text(controller.w//4, (controller.h-h)//4+h, text="Reponse1", fill="black", font=controller.font)
 
-        reponse_2 = Label(self, text=prop.reponses[1],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(controller.w//2, h, controller.w, (controller.h-h)//2+h, fill="white")
+        self.canvas.create_text(controller.w//4*3, (controller.h-h)//4+h, text="Reponse2", fill="black", font=controller.font)
 
-        reponse_3 = Label(self, text=prop.reponses[2],bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_3.grid(column=0, row=2,columnspan=2, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(0, h+(controller.h-h)//2, controller.w//2, controller.h, fill="white")
+        self.canvas.create_text(controller.w//4, (controller.h-h)//4*3+h, text="Reponse3", fill="black", font=controller.font)
 
-    def display_default(self,controller):
-        # On configure les poids
-        self.rowconfigure(1, weight=5)
-        self.rowconfigure(2, weight=5)
-
-        # Les Rectangles Reponses
-        reponse_1 = Label(self, text="Reponse 1",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
-
-        reponse_2 = Label(self, text="Reponse 2",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
-
-        reponse_3 = Label(self, text="Reponse 3",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
-
-        reponse_4 = Label(self, text="Reponse 4",bg="white", fg="black",font=controller.font,borderwidth=2, relief="solid")
-        reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")
+        self.canvas.create_rectangle(controller.w//2,  h+(controller.h-h)//2, controller.w, controller.h, fill="white")
+        self.canvas.create_text(controller.w//4*3, (controller.h-h)//4*3+h, text="Reponse4", fill="black", font=controller.font)
 
     def remove_reponses(self):
         for w in self.grid_slaves():
@@ -480,7 +579,8 @@ class page_reponses(Frame):
 
     def refresh(self,controller):
         self.remove_reponses()
-        self.onDisplay(controller)      
+        self.onDisplay(controller) 
+        self.action=None     
 
 
 def start_application() -> Window:
