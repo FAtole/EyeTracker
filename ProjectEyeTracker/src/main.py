@@ -380,7 +380,6 @@ class page_add_proposition(Frame):
         self.popup_bonus(controller)
 
 
-
 class page_reponses(Frame):
 
     def __init__(self,  controller):
@@ -430,7 +429,12 @@ class page_reponses(Frame):
         self.last_points =[]
         
         self.c=controller
-        self.Simulation_Regard()
+
+        button2 = Button(self.canvas, text="Start",
+                            command=lambda: self.Simulation_Regard())
+        button2.grid(column=0, row=0,sticky="W")
+        self.canvas.grid(sticky="NSEW")
+        
     
     def Simulation_Regard(self):
         controller =self.c

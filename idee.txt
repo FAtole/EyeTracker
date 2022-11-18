@@ -4,3 +4,4 @@ Parametre
     Eye Tracker 
         choisir dispo
         
+https://github.com/nrbnlulu/Qt-answers/tree/master/QtQuick/HandelingWindows
