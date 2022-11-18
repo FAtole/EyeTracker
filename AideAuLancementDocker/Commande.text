@@ -1,6 +1,6 @@
 docker container rm eyetracker 
 docker image rm eyetracker_python_test
-docker build -t eyetracker_python_test .
+docker build -t eyetracke   r_python_test .
 docker run -it --name eyetracker -e DISPLAY=10.41.14.85:0 -v C:\Users\anato:\anato eyetracker_python_test
 
 
@@ -15,4 +15,4 @@ docker run -u 0 --privileged --name jenkins -d -p 8080:8080 -p 50000:50000 -v /v
 docker exec -it -u 0 jenkins /bin/bash
     apt-get update
     apt-get install python
-docker logs id
+docker logs id 
