@@ -421,7 +421,7 @@ class page_reponses(Frame):
                 self.display_default(controller)
 
         button1 = Button(self.canvas, text="Retour",
-                            command=lambda: controller.show_frame(page_accueil))
+                            command=lambda: self.Retour(controller))
         button1.grid(column=1, row=0,sticky="E")
         self.canvas.grid(sticky="NSEW")
         
@@ -435,6 +435,11 @@ class page_reponses(Frame):
         button2.grid(column=0, row=0,sticky="W")
         self.canvas.grid(sticky="NSEW")
         
+    def Retour(self,controller):
+        if self.action is not None:
+            self.after_cancel(self.action)
+            self.action = None
+        controller.show_frame(page_accueil)
     
     def Simulation_Regard(self):
         controller =self.c
