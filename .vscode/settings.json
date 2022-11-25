@@ -3,5 +3,6 @@
         "./projecteyetracker/src",
         
     ],
-    "qtForPython.designer.path": "d:\\python 3.9\\Lib\\site-packages\\PySide6\\designer.exe"
+    "qtForPython.designer.path": "d:\\python 3.9\\Lib\\site-packages\\PySide6\\designer.exe",
+    "python.pythonPath": "D:\\python 3.9\\python.exe"
 }
