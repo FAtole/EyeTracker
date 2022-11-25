@@ -1,5 +1,5 @@
-import QtQuick 6.3
-import QtQuick.Controls 6.3
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 ApplicationWindow{
     id: window 
@@ -83,6 +83,10 @@ ApplicationWindow{
             padding: 0
             display: AbstractButton.TextOnly
             flat: true
+            background : Rectangle{
+                         color: "#00000000"
+                         border.width: 0
+                     }
 
             Image {
                 id: image4
@@ -137,6 +141,10 @@ ApplicationWindow{
             padding: 0
             display: AbstractButton.TextOnly
             rightPadding: 0
+            background : Rectangle{
+                         color: "#00000000"
+                         border.width: 0
+                     }
 
             Image {
                 id: image5
@@ -193,6 +201,10 @@ ApplicationWindow{
             padding: 0
             display: AbstractButton.TextOnly
             rightPadding: 0
+            background : Rectangle{
+                         color: "#00000000"
+                         border.width: 0
+                     }
 
             Image {
                 id: image6
@@ -272,6 +284,10 @@ ApplicationWindow{
             padding: 0
             display: AbstractButton.TextOnly
             rightPadding: 0
+            background : Rectangle{
+                         color: "#00000000"
+                         border.width: 0
+                     }
 
             Image {
                 id: image7
@@ -326,6 +342,10 @@ ApplicationWindow{
             padding: 0
             display: AbstractButton.TextOnly
             rightPadding: 0
+            background : Rectangle{
+                         color: "#00000000"
+                         border.width: 0
+                     }
 
             Image {
                 id: image8

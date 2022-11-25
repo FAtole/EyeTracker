@@ -1,5 +1,5 @@
-import QtQuick 6.3
-import QtQuick.Controls 6.3
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 Rectangle {
     width: 1540
@@ -75,6 +75,10 @@ Rectangle {
                 checkable: false
                 display: AbstractButton.TextOnly
                 flat: true
+                background : Rectangle{
+                         color: "#00000000"
+                         border.width: 0
+                     }
 
                 BorderImage {
                     id: borderImage
