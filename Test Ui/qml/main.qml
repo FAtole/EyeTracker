@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 6.3
+import QtQuick.Controls 6.3
 
 ApplicationWindow{
     id: window 
@@ -43,9 +43,14 @@ ApplicationWindow{
             x: 1860
             y: 10
             width: 40
+            height:40
             text: ""
             flat: true
             onClicked: window.close()
+            background : Rectangle{
+                         color: "#00000000"
+                         border.width: 0
+                     }
             Image {
                 id: image1
                 x: 0
@@ -115,7 +120,7 @@ ApplicationWindow{
                 text_Favoris.color = "#263F4F"
                 text_Preferences.color = "#263F4F"
                 text_Calibration.color = "#263F4F"
-                stackView.push(Qt.resolvedUrl("HomePage.qml"))
+                stackView.push(Qt.resolvedUrl("pages/HomePage.qml"))
             }
         }
 
@@ -171,7 +176,7 @@ ApplicationWindow{
                 text_Favoris.color = "#263F4F"
                 text_Preferences.color = "#263F4F"
                 text_Calibration.color = "#263F4F"
-                stackView.push(Qt.resolvedUrl("PropositionsPage.qml"))
+                stackView.push(Qt.resolvedUrl("pages/PropositionsPage.qml"))
             }
            
         }
@@ -227,7 +232,7 @@ ApplicationWindow{
                 text_Favoris.color = "#ffffff"
                 text_Preferences.color = "#263F4F"
                 text_Calibration.color = "#263F4F"
-                stackView.push(Qt.resolvedUrl("FavorisPage.qml"))
+                stackView.push(Qt.resolvedUrl("pages/FavorisPage.qml"))
             }
         }
 
@@ -305,7 +310,7 @@ ApplicationWindow{
                 text_Favoris.color = "#263F4F"
                 text_Preferences.color = "#263F4F"
                 text_Calibration.color ="#ffffff"
-                stackView.push(Qt.resolvedUrl("CalibrationPage.qml"))
+                stackView.push(Qt.resolvedUrl("pages/CalibrationPage.qml"))
             }
         }
 
@@ -360,7 +365,7 @@ ApplicationWindow{
                 text_Favoris.color = "#263F4F"
                 text_Preferences.color = "#ffffff"
                 text_Calibration.color = "#263F4F"
-                stackView.push(Qt.resolvedUrl("PreferencePage.qml"))
+                stackView.push(Qt.resolvedUrl("pages/PreferencePage.qml"))
             }
         }
     }
@@ -369,7 +374,7 @@ ApplicationWindow{
         id: stackView
         x: 380
         y: 60
-        initialItem: Qt.resolvedUrl("HomePage.qml")
+        initialItem: Qt.resolvedUrl("pages/HomePage.qml")
     }
-    Component.onCompleted: stackView.push(Qt.resolvedUrl("HomePage.qml"))
+    Component.onCompleted: stackView.push(Qt.resolvedUrl("pages/HomePage.qml"))
 }

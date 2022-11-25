@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 6.3
+import QtQuick.Controls 6.3
 
 Rectangle {
     width: 1540
@@ -82,7 +82,7 @@ Rectangle {
                     y: 0
                     width: 38
                     height: 38
-                    source: "../../projecteyetracker/asset/images/icons8-info-512.png"
+                    source: "../../../projecteyetracker/asset/images/icons8-info-512.png"
                 }
             }
         }
@@ -93,7 +93,7 @@ Rectangle {
             y: 10
             width: 800
             height: 480
-            source: "../../projecteyetracker/asset/images/eye.png"
+            source: "../../../projecteyetracker/asset/images/eye.png"
             fillMode: Image.PreserveAspectFit
         }
 
@@ -114,9 +114,7 @@ Rectangle {
                 width: 1150
                 height: 270
                 color: "#ffffff"
-                text: qsTr("Soleo saepe ante oculos ponere, idque libenter crebris usurpare sermonibus, omnis nostrorum imperatorum, omnis exterarum gentium potentissimorumque populorum, omnis clarissimorum regum res gestas, cum tuis nec contentionum magnitudine nec numero proeliorum nec varietate regionum nec celeritate conficiendi nec dissimilitudine bellorum posse conferri; nec vero disiunctissimas terras citius passibus cuiusquam potuisse peragrari, quam tuis non dicam cursibus, sed victoriis lustratae sunt.
-
-Soleo saepe ante oculos ponere, idque libenter crebris usurpare sermonibus, omnis nostrorum imperatorum, omnis exterarum gentium potentissimorumque populorum, omnis clarissimorum regum res gestas, cum tuis nec contentionum magnitudine nec numero proeliorum nec varietate regionum nec celeritate conficiendi nec dissimilitudine bellorum posse conferri; nec vero disiunctissimas terras citius passibus cuiusquam potuisse peragrari, quam tuis non dicam cursibus, sed victoriis lustratae sunt.")
+                text: qsTr("Soleo saepe ante oculos ponere, idque libenter crebris usurpare sermonibus, omnis nostrorum imperatorum, omnis exterarum gentium potentissimorumque populorum, omnis clarissimorum regum res gestas, cum tuis nec contentionum magnitudine nec numero proeliorum nec varietate regionum nec celeritate conficiendi nec dissimilitudine bellorum posse conferri; nec vero disiunctissimas terras citius passibus cuiusquam potuisse peragrari, quam tuis non dicam cursibus, sed victoriis lustratae sunt. \nSoleo saepe ante oculos ponere, idque libenter crebris usurpare sermonibus, omnis nostrorum imperatorum, omnis exterarum gentium potentissimorumque populorum, omnis clarissimorum regum res gestas, cum tuis nec contentionum magnitudine nec numero proeliorum nec varietate regionum nec celeritate conficiendi nec dissimilitudine bellorum posse conferri; nec vero disiunctissimas terras citius passibus cuiusquam potuisse peragrari, quam tuis non dicam cursibus, sed victoriis lustratae sunt.")
                 font.pixelSize: 20
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WordWrap

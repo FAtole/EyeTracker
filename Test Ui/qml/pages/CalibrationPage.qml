@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 6.3
+import QtQuick.Controls 6.3
 
 Rectangle {
     width: 1540
@@ -22,7 +22,7 @@ Rectangle {
             width: 250
             height: 110
             color: "#ffffff"
-            text: qsTr("Propositions")
+            text: qsTr("Calibration")
             font.pixelSize: 40
             verticalAlignment: Text.AlignVCenter
             font.family: "Roboto"
@@ -82,7 +82,7 @@ Rectangle {
                     y: 0
                     width: 38
                     height: 38
-                    source: "../../projecteyetracker/asset/images/icons8-info-512.png"
+                    source: "../../../projecteyetracker/asset/images/icons8-info-512.png"
                 }
             }
         }
