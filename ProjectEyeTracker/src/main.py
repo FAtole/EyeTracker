@@ -20,9 +20,9 @@ class Window(Tk):
         Tk.__init__(self)
 
         # On dimensionne la fenêtre         
-        #self.state('zoomed') ## ne marche pas sur linux
+        self.state('zoomed') ## ne marche pas sur linux
         self.w, self.h = self.winfo_screenwidth()/2, self.winfo_screenheight()/2
-        self.geometry("%dx%d+0+0" % (self.w, self.h))
+        #self.geometry("%dx%d+0+0" % (self.w, self.h))
         #resize off
         self.resizable(False,False)
 
@@ -58,6 +58,8 @@ class Window(Tk):
         self.show_frame(page_accueil)
 
     def show_frame(self, cont):
+        self.w, self.h = self.winfo_screenwidth(), self.winfo_screenheight()
+
         for frame in self.frames.values():
             frame.grid_remove()
         frame = self.frames[cont]
