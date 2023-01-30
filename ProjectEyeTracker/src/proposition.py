@@ -4,6 +4,7 @@ class Proposition:
         # cree un assert pour au moins 3 elements dans row
         self.question=row[0]
         self.reponses =row[1:]
+        self.format ="Carre"
     
     def Nbr_Reponses(self) -> int:
         return len(self.reponses)

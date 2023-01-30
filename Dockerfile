@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.8
 
 RUN pip install -U pip setuptools
 # Install Tobii
@@ -9,9 +9,9 @@ RUN apt-get update -y
 # Install Tkinter
 RUN apt-get install tk -y
 
+RUN apt-get install sudo
+
+
 WORKDIR /usr/app/src
 COPY projecteyetracker ./projecteyetracker
 
-
-CMD ["./projecteyetracker/src/main.py"]
-ENTRYPOINT ["python"]

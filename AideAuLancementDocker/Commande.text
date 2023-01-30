@@ -1,9 +1,13 @@
 docker container rm eyetracker 
 docker image rm eyetracker_python_test
-docker build -t eyetracker_python_test .
-docker run -it --name eyetracker -e DISPLAY=10.41.14.85:0 -v C:\Users\anato:\anato eyetracker_python_test
+docker build -t eyetracke   r_python_test .
+docker run -it --name eyetracker -e DISPLAY=10.41.9.88:0 -v C:\Users\anato:\anato eyetracker_python_test
+            --privileged -v /dev/bus/usb:/dev/bus/usb
 
+docker run -d -it --name eyetracker2 -e DISPLAY=10.41.9.88:0 --privileged -v /dev/bus/usb:/dev/bus/usb -v C:\Users\anato:\anato eyetracker_python_test
 
+CMD ["./projecteyetracker/src/tobii_eye_tracker.py"]
+ENTRYPOINT ["python"]
 
 docker exec -ti eyetracker bash
 docker stop eyetracker
@@ -15,4 +19,4 @@ docker run -u 0 --privileged --name jenkins -d -p 8080:8080 -p 50000:50000 -v /v
 docker exec -it -u 0 jenkins /bin/bash
     apt-get update
     apt-get install python
-docker logs id
+docker logs id 
