@@ -37,7 +37,7 @@ class Load_CSV:
 
     def Save(self):
         with open(self.emplacement_fichier_csv, 'w', newline='',encoding='utf-8') as csvfile:
-            fieldnames = ['Question','Reponse1','Reponse2','Reponse3','Reponse4']
+            fieldnames = ['Format','Question','Reponse1','Reponse2','Reponse3','Reponse4']
             writer = csv.writer(csvfile)
             writer.writerow(fieldnames)
             for prop  in self.Propositions:

@@ -248,7 +248,7 @@ class page_modifie_proposition(Frame):
         self.on_Display(controller)
 
     def validate(self,controller):
-        row=[]
+        row=["Carre"]
         row.append(self.text_question.get("1.0","end-1c"))
         for rep in self.reponses_entry:
             row.append(rep.get())

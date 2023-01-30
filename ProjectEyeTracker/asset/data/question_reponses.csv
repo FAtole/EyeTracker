@@ -1,11 +1,11 @@
-Question,Reponse1,Reponse2,Reponse3,Reponse4
-En Carrée,C,A,B
-En Ligne,C,A,B
-En Colonne,B,C,A
-Question,Oui,Non
-Veux-tu qu'on arrête ?,Oui,Non,Je veux faire une pose
-Quelle taille de police préfères-tu ?,10,20,30,40
-Quelle police préfères-tu ?,Arial,Segoe UI,Times New Roman,Calibri
-Est-ce que tu vas bien ?,Oui,Non
-Où veux-tu aller ?,À la plage,Au cinema,À la maison,À l'école
-Que veux-tu manger ?,Pizza,Steak frites,Sushi
+Format,Question,Reponse1,Reponse2,Reponse3,Reponse4
+Carre,En Carrée,C,A,B,D
+Carre,En Ligne,C,A,B,D
+Colonne,En Colonne,B,C,A
+Carre,Question,Oui,Non
+Carre,Veux-tu qu'on arrête ?,Oui,Non,Je veux faire une pose
+Carre,Quelle taille de police préfères-tu ?,10,20,30,40
+Carre,Quelle police préfères-tu ?,Arial,Segoe UI,Times New Roman,Calibri
+Carre,Est-ce que tu vas bien ?,Oui,Non
+Carre,Où veux-tu aller ?,À la plage,Au cinema,À la maison,À l'école
+Carre,Que veux-tu manger ?,Pizza,Steak frites,Sushi
