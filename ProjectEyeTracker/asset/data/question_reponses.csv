@@ -1,11 +1,6 @@
 Format,Question,Reponse1,Reponse2,Reponse3,Reponse4
-Carre,En Carrée,C,A,B,D
-Carre,En Ligne,C,A,B,D
-Colonne,En Colonne,B,C,A
-Carre,Question,Oui,Non
-Carre,Veux-tu qu'on arrête ?,Oui,Non,Je veux faire une pose
-Carre,Quelle taille de police préfères-tu ?,10,20,30,40
-Carre,Quelle police préfères-tu ?,Arial,Segoe UI,Times New Roman,Calibri
+Carre,Essai,Oui,Non
+Carre,Veux-tu qu'on arrête ?,Oui,Non,Je veux faire une pause
 Carre,Est-ce que tu vas bien ?,Oui,Non
 Carre,Où veux-tu aller ?,À la plage,Au cinema,À la maison,À l'école
 Carre,Que veux-tu manger ?,Pizza,Steak frites,Sushi
