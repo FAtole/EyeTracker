@@ -403,6 +403,11 @@ class page_reponses(Frame):
         self.canvas.columnconfigure(1, weight=1)
         self.canvas.rowconfigure(0, weight=1)
 
+        #couleurs
+        self.pink = "#FFB6C1"
+        self.yellow = "#FFFACD"
+        self.cyan = "#E0FFFF"
+        self.green = "#98FB98"
         
         # Le Rectangle Question
         question =  controller.Selected_Proposition.question if controller.Selected_Proposition !=None else "Question"
@@ -513,24 +518,26 @@ class page_reponses(Frame):
         self.canvas.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
-        if prop.format =="Colonne" :
-            #reponse_1
-            self.canvas.create_rectangle(0, h, controller.w, (controller.h-h)//2+h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//4+h, text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
+        #Calcul des positions des cases
+        if prop.format == "Colonne" :
+            x_rect = [0, controller.w, 0, controller.w]
+            y_rect = [h, (controller.h-h)//2+h, (controller.h-h)//2+h, controller.h]
+            x_text = [controller.w//2, controller.w//2]
+            y_text = [(controller.h-h)//4+h, (controller.h-h)//4*3+h]
+        else : #Ligne et Carrée 
+            x_rect = [0, controller.w//2, controller.w//2, controller.w]
+            y_rect = [h, controller.h, h, controller.h]
+            x_text = [controller.w//4, controller.w//4*3]
+            y_text = [(controller.h-h)//2+h, (controller.h-h)//2+h]
+            
+        #reponse_1 
+        self.canvas.create_rectangle(x_rect[0], y_rect[0], x_rect[1], y_rect[1], fill=self.pink)
+        self.canvas.create_text(x_text[0], y_text[0], text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
 
-            #reponse_2 
-            self.canvas.create_rectangle(0, h+(controller.h-h)//2, controller.w, controller.h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//4*3+h, text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
+        #reponse_2 
+        self.canvas.create_rectangle(x_rect[2], y_rect[2], x_rect[3], y_rect[3], fill= self.yellow)
+        self.canvas.create_text(x_text[1], y_text[1], text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
 
-        else : #Autre forme Ligne et Carre
-            #reponse_1
-            self.canvas.create_rectangle(0, h, controller.w//2, controller.h, fill="white")
-            self.canvas.create_text(controller.w//4, (controller.h-h)//2+h, text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
-
-            #reponse_2 
-            self.canvas.create_rectangle(controller.w//2, h, controller.w, controller.h, fill="white")
-            self.canvas.create_text(controller.w//4*3, (controller.h-h)//2+h, text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
-        
     def display_4_reponses(self,prop,controller, font, h=72):
         #on randomise l'affichage des reponses
         index_reponse = [0,1,2,3]
@@ -542,55 +549,40 @@ class page_reponses(Frame):
 
         h=h+10
         # Les Rectangles Reponses
-        if prop.format == "Ligne" :
-            #reponse_1 
-            self.canvas.create_rectangle(0, h, controller.w//4, controller.h, fill="white")
-            self.canvas.create_text(controller.w//8, (controller.h-h)//2+h, text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
-
-            #reponse_2
-            self.canvas.create_rectangle(controller.w//4, h, controller.w//4*2, controller.h, fill="white")
-            self.canvas.create_text(controller.w//8*3, (controller.h-h)//2+h, text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
-
-            #reponse_3 
-            self.canvas.create_rectangle(controller.w//4*2, h, controller.w//4*3, controller.h, fill="white")
-            self.canvas.create_text(controller.w//8*5, (controller.h-h)//2+h, text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
-
-            #reponse_4 
-            self.canvas.create_rectangle(controller.w//4*3, h, controller.w, controller.h, fill="white")
-            self.canvas.create_text(controller.w//8*7, (controller.h-h)//2+h, text=prop.reponses[index_reponse[3]], fill="black", font=font[3])
-        elif prop.format =="Colonne" :
-            #reponse_1 
-            self.canvas.create_rectangle(0, h, controller.w, (controller.h-h)//4+h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//8+h, text=prop.reponses[0], fill="black", font=font[0])
-
-            #reponse_2
-            self.canvas.create_rectangle(0, (controller.h-h)//4+h, controller.w, (controller.h-h)//4*2+h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//8*3+h, text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
-
-            #reponse_3 
-            self.canvas.create_rectangle(0, (controller.h-h)//4*2+h, controller.w, (controller.h-h)//4*3+h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//8*5+h, text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
-
-            #reponse_4 
-            self.canvas.create_rectangle(0, (controller.h-h)//4*3+h, controller.w, controller.h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//8*7+h, text=prop.reponses[index_reponse[3]], fill="black", font=font[3])
+        #Calcul des positions des cases
+        if prop.format =="Ligne" :
+            x_rect = [0, controller.w//4, controller.w//4, controller.w//4*2, controller.w//4*2, controller.w//4*3, controller.w//4*3, controller.w]
+            y_rect = [h, controller.h, h, controller.h, h, controller.h, h, controller.h]
+            x_text = [controller.w//8, controller.w//8*3, controller.w//8*5, controller.w//8*7]
+            y_text = [(controller.h-h)//2+h, (controller.h-h)//2+h, (controller.h-h)//2+h, (controller.h-h)//2+h]
+        elif prop.format == "Colonne" :
+            x_rect = [0, controller.w, 0, controller.w, 0, controller.w, 0, controller.w]
+            y_rect = [h, (controller.h-h)//4+h, (controller.h-h)//4+h, (controller.h-h)//4*2+h, (controller.h-h)//4*2+h, (controller.h-h)//4*3+h, (controller.h-h)//4*3+h, controller.h]
+            x_text = [controller.w//2, controller.w//2, controller.w//2, controller.w//2]
+            y_text = [(controller.h-h)//8+h, (controller.h-h)//8*3+h, (controller.h-h)//8*5+h, (controller.h-h)//8*7+h]
         else : #"Carre" 
-            #reponse_1 
-            self.canvas.create_rectangle(0, h, controller.w//2, (controller.h-h)//2+h, fill="white")
-            self.canvas.create_text(controller.w//4, (controller.h-h)//4+h, text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
+            x_rect = [0, controller.w//2, controller.w//2, controller.w, 0, controller.w//2, controller.w//2, controller.w]
+            y_rect = [h, (controller.h-h)//2+h, h, (controller.h-h)//2+h, (controller.h-h)//2+h, controller.h, (controller.h-h)//2+h, controller.h]
+            x_text = [controller.w//4, controller.w//4*3, controller.w//4, controller.w//4*3]
+            y_text = [(controller.h-h)//4+h, (controller.h-h)//4+h, (controller.h-h)//4*3+h, (controller.h-h)//4*3+h]
+            
+        #reponse_1 
+        self.canvas.create_rectangle(x_rect[0], y_rect[0], x_rect[1], y_rect[1], fill=self.pink)
+        self.canvas.create_text(x_text[0], y_text[0], text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
 
-            #reponse_2
-            self.canvas.create_rectangle(controller.w//2, h, controller.w, (controller.h-h)//2+h, fill="white")
-            self.canvas.create_text(controller.w//4*3, (controller.h-h)//4+h, text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
+        #reponse_2 
+        self.canvas.create_rectangle(x_rect[2], y_rect[2], x_rect[3], y_rect[3], fill= self.yellow)
+        self.canvas.create_text(x_text[1], y_text[1], text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
 
-            #reponse_3 
-            self.canvas.create_rectangle(0, h+(controller.h-h)//2, controller.w//2, controller.h, fill="white")
-            self.canvas.create_text(controller.w//4, (controller.h-h)//4*3+h, text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
+        #reponse_3
+        self.canvas.create_rectangle(x_rect[4], y_rect[4], x_rect[5], y_rect[5], fill=self.cyan)
+        self.canvas.create_text(x_text[2], y_text[2], text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
 
-            #reponse_4 
-            self.canvas.create_rectangle(controller.w//2,  h+(controller.h-h)//2, controller.w, controller.h, fill="white")
-            self.canvas.create_text(controller.w//4*3, (controller.h-h)//4*3+h, text=prop.reponses[index_reponse[3]], fill="black", font=font[3])
-        
+        #reponse_4
+        self.canvas.create_rectangle(x_rect[6], y_rect[6], x_rect[7], y_rect[7], fill=self.green)
+        self.canvas.create_text(x_text[3], y_text[3], text=prop.reponses[index_reponse[3]], fill="black", font=font[3])
+
+
     def display_3_reponses(self,prop,controller, font, h=72):
         h=h+10
         #on randomise l'affichage des reponses
@@ -602,63 +594,42 @@ class page_reponses(Frame):
         self.canvas.rowconfigure(2, weight=5)
 
         # Les Rectangles Reponses
+        #Calcul des positions des cases
         if prop.format =="Ligne" :
-            #reponse_1 
-            self.canvas.create_rectangle(0, h, controller.w//3, controller.h, fill="white")
-            self.canvas.create_text(controller.w//6, (controller.h-h)//2+h, text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
-
-            #reponse_2 
-            self.canvas.create_rectangle(controller.w//3, h, controller.w//3*2, controller.h, fill="white")
-            self.canvas.create_text(controller.w//6*3, (controller.h-h)//2+h, text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
-
-            #reponse_3
-            self.canvas.create_rectangle(controller.w//3*2, h, controller.w, controller.h, fill="white")
-            self.canvas.create_text(controller.w//6*5, (controller.h-h)//2+h, text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
+            x_rect = [0, controller.w//3, controller.w//3, controller.w//3*2, controller.w//3*2, controller.w]
+            y_rect = [h, controller.h, h, controller.h, h, controller.h]
+            x_text = [controller.w//6, controller.w//6*3, controller.w//6*5]
+            y_text = [(controller.h-h)//2+h, (controller.h-h)//2+h, (controller.h-h)//2+h]
         elif prop.format == "Colonne" :
-            #reponse_1 
-            self.canvas.create_rectangle(0, h, controller.w, (controller.h-h)//3+h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//6+h, text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
-
-            #reponse_2 
-            self.canvas.create_rectangle(0, h+(controller.h-h)//3, controller.w, (controller.h-h)//3*2+h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//6*3+h, text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
-
-            #reponse_3
-            self.canvas.create_rectangle(0, (controller.h-h)//3*2+h, controller.w, controller.h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//6*5+h, text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
+            x_rect = [0, controller.w, 0, controller.w, 0, controller.w]
+            y_rect = [h, (controller.h-h)//3+h, (controller.h-h)//3+h, (controller.h-h)//3*2+h, (controller.h-h)//3*2+h, controller.h]
+            x_text = [controller.w//2, controller.w//2, controller.w//2]
+            y_text = [(controller.h-h)//6+h, (controller.h-h)//6*3+h, (controller.h-h)//6*5+h]
         else : #"Carre" 
-            #reponse_1 
-            self.canvas.create_rectangle(0, h, controller.w//2, (controller.h-h)//2+h, fill="white")
-            self.canvas.create_text(controller.w//4, (controller.h-h)//4+h, text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
+            x_rect = [0, controller.w//2, controller.w//2, controller.w, 0, controller.w]
+            y_rect = [h, (controller.h-h)//2+h, h, (controller.h-h)//2+h, (controller.h-h)//2+h, controller.h]
+            x_text = [controller.w//4, controller.w//4*3, controller.w//2]
+            y_text = [(controller.h-h)//4+h, (controller.h-h)//4+h, (controller.h-h)//4*3+h]
+            
+        #reponse_1 
+        self.canvas.create_rectangle(x_rect[0], y_rect[0], x_rect[1], y_rect[1], fill=self.pink)
+        self.canvas.create_text(x_text[0], y_text[0], text=prop.reponses[index_reponse[0]], fill="black", font=font[0])
 
-            #reponse_2 
-            self.canvas.create_rectangle(controller.w//2, h, controller.w, (controller.h-h)//2+h, fill="white")
-            self.canvas.create_text(controller.w//4*3, (controller.h-h)//4+h, text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
+        #reponse_2 
+        self.canvas.create_rectangle(x_rect[2], y_rect[2], x_rect[3], y_rect[3], fill= self.yellow)
+        self.canvas.create_text(x_text[1], y_text[1], text=prop.reponses[index_reponse[1]], fill="black", font=font[1])
 
-            #reponse_3
-            self.canvas.create_rectangle(0, h+(controller.h-h)//2, controller.w, controller.h, fill="white")
-            self.canvas.create_text(controller.w//2, (controller.h-h)//4*3+h, text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
+        #reponse_3
+        self.canvas.create_rectangle(x_rect[4], y_rect[4], x_rect[5], y_rect[5], fill=self.cyan)
+        self.canvas.create_text(x_text[2], y_text[2], text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
 
 
     def display_default(self,controller,h=72):
         # On configure les poids
         self.canvas.rowconfigure(1, weight=5)
         self.canvas.rowconfigure(2, weight=5)
-
-        # Les Rectangles Reponses
-        """
-        reponse_1 = Label(self.canvas, text="Reponse 1",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_1.grid(column=0, row=1, ipadx=10, ipady=10, sticky="NSEW")
-
-        reponse_2 = Label(self.canvas, text="Reponse 2",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_2.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
-
-        reponse_3 = Label(self.canvas, text="Reponse 3",bg="white",fg="black", font=controller.font,borderwidth=2, relief="solid")
-        reponse_3.grid(column=0, row=2, ipadx=10, ipady=10, sticky="NSEW")
-
-        reponse_4 = Label(self.canvas, text="Reponse 4",bg="white", fg="black",font=controller.font,borderwidth=2, relief="solid")
-        reponse_4.grid(column=1, row=2, ipadx=10, ipady=10, sticky="NSEW")"""
         h=h+10
+       
         # Les Rectangles Reponses
         self.canvas.create_rectangle(0, h, controller.w//2, (controller.h-h)//2+h, fill="white")
         self.canvas.create_text(controller.w//4, (controller.h-h)//4+h, text="Reponse1", fill="black", font=controller.font)
