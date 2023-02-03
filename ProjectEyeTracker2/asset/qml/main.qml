@@ -57,7 +57,7 @@ ApplicationWindow{
                 y: 0
                 width: 40
                 height: 40
-                source: "../../projecteyetracker/asset/images/icons8-multiply-96.png"
+                source: "../images/icons8-multiply-96.png"
                 fillMode: Image.PreserveAspectFit
             }
         }
@@ -94,7 +94,7 @@ ApplicationWindow{
                 y: 10
                 width: 40
                 height: 40
-                source: "../../projecteyetracker/asset/images/icons8-home-500.png"
+                source: "../images/icons8-home-500.png"
                 cache: true
                 sourceSize.width: 100
                 smooth: false
@@ -153,7 +153,7 @@ ApplicationWindow{
                 width: 40
                 height: 40
                 opacity: 1
-                source: "../../projecteyetracker/asset/images/icons8-questions-90.png"
+                source: "../images/icons8-questions-90.png"
                 clip: false
                 smooth: false
                 cache: true
@@ -212,7 +212,7 @@ ApplicationWindow{
                 y: 10
                 width: 40
                 height: 40
-                source: "../../projecteyetracker/asset/images/icons8-favorite-100.png"
+                source: "../images/icons8-favorite-100.png"
                 smooth: false
                 cache: true
                 enabled: false
@@ -295,7 +295,7 @@ ApplicationWindow{
                 y: 10
                 width: 40
                 height: 40
-                source: "../../projecteyetracker/asset/images/icons8-parameters-66.png"
+                source: "../images/icons8-parameters-66.png"
                 smooth: false
                 cache: true
                 enabled: false
@@ -353,7 +353,7 @@ ApplicationWindow{
                 y: 10
                 width: 40
                 height: 40
-                source: "../../projecteyetracker/asset/images/icons8-settings-64.png"
+                source: "../images/icons8-settings-64.png"
                 asynchronous: false
                 smooth: false
                 cache: true

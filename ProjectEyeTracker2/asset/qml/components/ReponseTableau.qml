@@ -10,7 +10,7 @@ Rectangle {
     property color colorBgSelected: "#b337aaf7"
     property string question: "Comment vas-tu ?"
     property string date: "25/11/2022"
-
+    property int id_proposition :0
     property bool isFavoris: false
     property bool isChecked_Output: selector.checked
     
@@ -95,7 +95,7 @@ Rectangle {
             y:10
             width: 20
             height: 20
-            source: "../../../projecteyetracker/asset/images/icons8-check-67 (3).png"
+            source: "../../images/icons8-check-67 (3).png"
             sourceSize.height: 500
             sourceSize.width: 500
             fillMode: Image.PreserveAspectFit
@@ -119,7 +119,7 @@ Rectangle {
         Image {
             width: 40
             height: 40
-            source: "../../../projecteyetracker/asset/images/icons8-heart-100.png"
+            source: "../../images/icons8-heart-100.png"
             sourceSize.height: 500
             sourceSize.width: 500
             fillMode: Image.PreserveAspectFit
@@ -128,7 +128,7 @@ Rectangle {
         Image {
             width: 40
             height: 40
-            source: "../../../projecteyetracker/asset/images/icons8-heart-100 (1).png"
+            source: "../../images/icons8-heart-100 (1).png"
 
             sourceSize.height: 500
             sourceSize.width: 500
@@ -153,7 +153,7 @@ Rectangle {
         Image {
             width: 40
             height: 40
-            source: "../../../projecteyetracker/asset/images/icons8-play-96.png"
+            source: "../../images/icons8-play-96.png"
 
             sourceSize.height: 500
             sourceSize.width: 500
@@ -175,7 +175,7 @@ Rectangle {
         Image {
             width: 40
             height: 40
-            source: "../../../projecteyetracker/asset/images/icons8-more-90.png"
+            source: "../../images/icons8-more-90.png"
             rotation: 90
 
             sourceSize.height: 500
@@ -206,7 +206,7 @@ Rectangle {
         Image {
             width: 40
             height: 40
-            source: "../../../projecteyetracker/asset/images/icons8-trash-can-208.png"
+            source: "../../images/icons8-trash-can-208.png"
             sourceSize.height: 500
             sourceSize.width: 500
             fillMode: Image.PreserveAspectFit

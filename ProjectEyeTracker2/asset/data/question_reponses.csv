@@ -1,0 +1,6 @@
+Favoris,Date,Format,Question,Reponse1,Reponse2,Reponse3,Reponse4
+False,XXXX,Carre,Essai,Oui,Non
+False,XXXX,Carre,Veux-tu qu'on arrête ?,Oui,Non,Je veux faire une pause
+True,XXXX,Carre,Est-ce que tu vas bien ?,Oui,Non
+False,XXXX,Carre,Où veux-tu aller ?,À la plage,Au cinema,À la maison,À l'école
+False,XXXX,Carre,Que veux-tu manger ?,Pizza,Steak frites,Sushi

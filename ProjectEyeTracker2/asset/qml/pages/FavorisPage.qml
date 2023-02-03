@@ -22,7 +22,7 @@ Rectangle {
             width: 250
             height: 110
             color: "#ffffff"
-            text: qsTr("Calibration")
+            text: qsTr("Favoris")
             font.pixelSize: 40
             verticalAlignment: Text.AlignVCenter
             font.family: "Roboto"
@@ -86,7 +86,7 @@ Rectangle {
                     y: 0
                     width: 38
                     height: 38
-                    source: "../../../projecteyetracker/asset/images/icons8-info-512.png"
+                    source: "../../images/icons8-info-512.png"
                 }
             }
         }

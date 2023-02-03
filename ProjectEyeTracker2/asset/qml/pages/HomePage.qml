@@ -4,8 +4,6 @@ import QtQuick.Controls 2.15
 Rectangle {
     width: 1540
     height: 1020
-    color: "#ffffff"
-    border.color: "#ffffff"
 
 
     Rectangle {
@@ -24,7 +22,7 @@ Rectangle {
             width: 250
             height: 110
             color: "#ffffff"
-            text: qsTr("Préférences")
+            text: qsTr("Home")
             font.pixelSize: 40
             verticalAlignment: Text.AlignVCenter
             font.family: "Roboto"
@@ -81,21 +79,52 @@ Rectangle {
                          color: "#00000000"
                          border.width: 0
                      }
+
                 BorderImage {
                     id: borderImage
                     x: 0
                     y: 0
                     width: 38
                     height: 38
-                    source: "../../../projecteyetracker/asset/images/icons8-info-512.png"
+                    source: "../../images/icons8-info-512.png"
                 }
+            }
+        }
+
+        Image {
+            id: image
+            x: 340
+            y: 10
+            width: 800
+            height: 480
+            source: "../../images/eye.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Rectangle {
+            id: rectangle2
+            x: 170
+            y: 520
+            width: 1200
+            height: 320
+            color: "#4e626d"
+            radius: 25
+            border.width: 0
+
+            Text {
+                id: text3
+                x: 25
+                y: 25
+                width: 1150
+                height: 270
+                color: "#ffffff"
+                text: qsTr("Soleo saepe ante oculos ponere, idque libenter crebris usurpare sermonibus, omnis nostrorum imperatorum, omnis exterarum gentium potentissimorumque populorum, omnis clarissimorum regum res gestas, cum tuis nec contentionum magnitudine nec numero proeliorum nec varietate regionum nec celeritate conficiendi nec dissimilitudine bellorum posse conferri; nec vero disiunctissimas terras citius passibus cuiusquam potuisse peragrari, quam tuis non dicam cursibus, sed victoriis lustratae sunt. \nSoleo saepe ante oculos ponere, idque libenter crebris usurpare sermonibus, omnis nostrorum imperatorum, omnis exterarum gentium potentissimorumque populorum, omnis clarissimorum regum res gestas, cum tuis nec contentionum magnitudine nec numero proeliorum nec varietate regionum nec celeritate conficiendi nec dissimilitudine bellorum posse conferri; nec vero disiunctissimas terras citius passibus cuiusquam potuisse peragrari, quam tuis non dicam cursibus, sed victoriis lustratae sunt.")
+                font.pixelSize: 20
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.WordWrap
+                font.bold: false
+                font.family: "Roboto"
             }
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.66}
-}
-##^##*/

@@ -33,7 +33,7 @@ Item {
                 height: 40
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                source :"../../../projecteyetracker/asset/images/icons8-search-500.png"
+                source :"../../images/icons8-search-500.png"
                 smooth: false
                 cache: true
                 mirror: false

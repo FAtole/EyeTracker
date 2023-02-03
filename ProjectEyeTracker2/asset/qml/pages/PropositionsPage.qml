@@ -87,7 +87,7 @@ Rectangle {
                     y: 0
                     width: 38
                     height: 38
-                    source: "../../../projecteyetracker/asset/images/icons8-info-512.png"
+                    source: "../../images/icons8-info-512.png"
                 }
             }
         }
@@ -161,7 +161,7 @@ Rectangle {
                 y: 0
                 width: 40
                 height: 40
-                source: "../../../projecteyetracker/asset/images/icons8-favorite-100.png"
+                source: "../../images/icons8-favorite-100.png"
                 fillMode: Image.PreserveAspectFit
             }
 
@@ -197,36 +197,34 @@ Rectangle {
             clip: true
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-            Column {
-                    id: column
+            
+            Component {
+                id: delegateModel
+                ReponseTableau {
+                    question: model.modelData.question_value 
+                    date: model.modelData.date_value 
+                    isFavoris : model.modelData.favoris_value
+                    id_proposition: model.modelData.id_value }
+                
+            }
+            ListView {
+                id: column
 
-                    width: parent.width
-                    height: 500
-                    clip: false
+                width: parent.width
+                height: 500
+                clip: false
 
-                    ReponseTableau { id:l1 }
-                    ReponseTableau {id:l2
-                        question: "Comment vas-tu ?2" }
-                    ReponseTableau { id:l3}
-                    ReponseTableau { id:l4}
-                    ReponseTableau { id:l5}
-                    ReponseTableau { id:l6}
-                    ReponseTableau { id:l7}
-                    ReponseTableau { id:l8}
-
-
+                model: backend.model
+                delegate: delegateModel
+                
             }
         }
 
-        CustomButton {
+        CustomButtonImage {
             id: supprimer_plusieurs_btn
             x: 50
             y: 100
-            text_b: "Supprimer"
-            colorBg: "#ff0000"
-            colorBgEntered: "#ff0000"
-            colorBgPressed: "#ff0000"
-            visible: false
+            visible: true
         }
     }
 

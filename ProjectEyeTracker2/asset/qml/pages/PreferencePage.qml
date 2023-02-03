@@ -4,6 +4,8 @@ import QtQuick.Controls 2.15
 Rectangle {
     width: 1540
     height: 1020
+    color: "#ffffff"
+    border.color: "#ffffff"
 
 
     Rectangle {
@@ -22,7 +24,7 @@ Rectangle {
             width: 250
             height: 110
             color: "#ffffff"
-            text: qsTr("Favoris")
+            text: qsTr("Préférences")
             font.pixelSize: 40
             verticalAlignment: Text.AlignVCenter
             font.family: "Roboto"
@@ -79,14 +81,13 @@ Rectangle {
                          color: "#00000000"
                          border.width: 0
                      }
-
                 BorderImage {
                     id: borderImage
                     x: 0
                     y: 0
                     width: 38
                     height: 38
-                    source: "../../../projecteyetracker/asset/images/icons8-info-512.png"
+                    source: "../../images/icons8-info-512.png"
                 }
             }
         }

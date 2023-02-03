@@ -582,7 +582,6 @@ class page_reponses(Frame):
         self.canvas.create_rectangle(x_rect[6], y_rect[6], x_rect[7], y_rect[7], fill=self.green)
         self.canvas.create_text(x_text[3], y_text[3], text=prop.reponses[index_reponse[3]], fill="black", font=font[3])
 
-
     def display_3_reponses(self,prop,controller, font, h=72):
         h=h+10
         #on randomise l'affichage des reponses
@@ -622,7 +621,6 @@ class page_reponses(Frame):
         #reponse_3
         self.canvas.create_rectangle(x_rect[4], y_rect[4], x_rect[5], y_rect[5], fill=self.cyan)
         self.canvas.create_text(x_text[2], y_text[2], text=prop.reponses[index_reponse[2]], fill="black", font=font[2])
-
 
     def display_default(self,controller,h=72):
         # On configure les poids
