@@ -14,11 +14,13 @@ Item {
     property string text_b: "Ajouter"
     property int btnHeight: 50
     property int btnWidth : 175
+    signal buttonClicked();
+
 
     Button{
         id:btn
         font.pointSize: 20
-        font.family: "Roboto"
+        font.family: "Arial"
         width: parent.width
         height: parent.height
         background: Rectangle{
@@ -57,5 +59,9 @@ Item {
                    color: internal.dynamicText
                }
         }
+
+        onClicked: {
+                id_button.buttonClicked()
+            }
     }
 }

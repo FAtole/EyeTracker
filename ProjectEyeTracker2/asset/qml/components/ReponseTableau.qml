@@ -167,6 +167,8 @@ Rectangle {
             sourceSize.width: 500
             fillMode: Image.PreserveAspectFit
         }
+        onClicked: stackView2.push(Qt.resolvedUrl("../pages/EyeTrackerPage.qml"))
+
     }
 
     Button {

@@ -40,7 +40,7 @@ Rectangle {
         border.width: 0
 
         Rectangle {
-            id: rectangle1
+            id: footer
             x: 0
             y: 870
             width: 1540
