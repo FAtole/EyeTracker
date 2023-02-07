@@ -35,10 +35,11 @@ class Loader_CSV:
     def Modify_proposition(self,index,proposition):
         self.Propositions[index] = proposition
 
-    def Save(self):
+    def Save(self, model):
         with open(self.emplacement_fichier_csv, 'w', newline='',encoding='utf-8') as csvfile:
             fieldnames = ['Favoris','Date','Format','Question','Reponse1','Reponse2','Reponse3','Reponse4']
             writer = csv.writer(csvfile)
             writer.writerow(fieldnames)
-            for prop  in self.Propositions:
-                writer.writerow(prop.Get_row())
+            for prop  in model:
+                row =[str(prop.favoris), prop.date, prop.format, prop.question]+prop.reponses
+                writer.writerow(row)

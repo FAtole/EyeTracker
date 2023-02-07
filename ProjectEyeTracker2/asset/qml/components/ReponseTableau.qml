@@ -10,16 +10,16 @@ Rectangle {
     property color colorBgSelected: "#b337aaf7"
     property string question: "Comment vas-tu ?"
     property string date: "25/11/2022"
-    property int id_proposition :0
+    property int id_proposition : 0
     property bool isFavoris: false
     property bool isChecked_Output: selector.checked
-    
 
+    
     width: 1460
     height: 70
-    color: internal.dynamicBg
     border.width: 0
 
+    color: internal.dynamicBg
     property bool isFavorisOutPut: checkBox_favoris.checked
     QtObject{
         id: internal
@@ -101,6 +101,8 @@ Rectangle {
             fillMode: Image.PreserveAspectFit
             visible: selector.checked
         }
+
+        
     }
 
     CheckBox {
@@ -135,6 +137,12 @@ Rectangle {
             fillMode: Image.PreserveAspectFit
             visible: checkBox_favoris.checked
         }
+
+        onClicked:  {
+            backend.model[id_proposition].favoris_value = checkBox_favoris.checked
+            backend.Save(id_proposition)
+        }
+
 
     }
 

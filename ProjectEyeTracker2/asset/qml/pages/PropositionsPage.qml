@@ -204,7 +204,8 @@ Rectangle {
                     question: model.modelData.question_value 
                     date: model.modelData.date_value 
                     isFavoris : model.modelData.favoris_value
-                    id_proposition: model.modelData.id_value }
+                    id_proposition: model.modelData.id_value 
+                    }
                 
             }
             ListView {

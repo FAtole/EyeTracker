@@ -3,6 +3,8 @@ import QtQuick.Controls 2.15
 
 ApplicationWindow{
     id: window 
+
+
     width: 1920
     height: 1080
     visible: true
@@ -14,7 +16,6 @@ ApplicationWindow{
     flags: Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.CustomizeWindowHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowTitleHint
 
     
-  
     Rectangle {
         id: header
         x: 0
