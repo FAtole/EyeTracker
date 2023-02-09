@@ -26,9 +26,25 @@ class ItemModel(QObject):
         self.date =row[1]
         self.favoris = eval(row[0])
 
+    @Property(int)
+    def nombre_reponses(self):
+        return len(self.reponses)
+
     @Property(str)
-    def reponses_value(self):
-        return self.reponses
+    def reponse1_value(self):
+        return self.reponses[0]
+    
+    @Property(str)
+    def reponse2_value(self):
+        return self.reponses[1]
+    
+    @Property(str)
+    def reponse3_value(self):
+        return self.reponses[2] if len(self.reponses)>2 else ""
+    
+    @Property(str)
+    def reponse4_value(self):
+        return self.reponses[3] if len(self.reponses)>3 else ""
 
     @Property(str)
     def format_value(self):
@@ -97,12 +113,14 @@ class ListModel(QObject):
 
 class MainWindow(QObject):
     ModelChanged = Signal("QVariantList")
+    ItemModelChanged = Signal(ItemModel)
 
     def __init__(self):
         QObject.__init__(self)
         self._model = ListModel()
         self.bdd_proposition = Loader_CSV()
         self.Load_items()
+        self.current_item = self._model.model[0]
 
     def Load_items(self):
         index = 0
@@ -118,6 +136,15 @@ class MainWindow(QObject):
     def setModel(self, _model):
         self._model = _model  
         self.ModelChanged.emit(self._model)
+
+    @Property(ItemModel, notify=ItemModelChanged)
+    def currentItem(self):
+        return self.current_item
+
+    @currentItem.setter
+    def currentItem(self, item):
+        self.current_item = item  
+        self.ItemModelChanged.emit(self.current_item)
 
     @Slot(int)
     def Save(self, id):
