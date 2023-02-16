@@ -169,7 +169,6 @@ Rectangle {
         }
         onClicked: {
             backend.currentItem = backend.model[id_proposition]
-            console.log(backend.currentItem.question_value)
             stackView2.push(Qt.resolvedUrl("../pages/EyeTrackerPage.qml"))
             }
 
@@ -196,6 +195,10 @@ Rectangle {
             sourceSize.width: 500
             fillMode: Image.PreserveAspectFit
         }
+        onClicked: {
+            backend.currentItem = backend.model[id_proposition]
+            stackView.push(Qt.resolvedUrl("../pages/PropositionPage.qml"))
+            }
     }
 
     Rectangle {

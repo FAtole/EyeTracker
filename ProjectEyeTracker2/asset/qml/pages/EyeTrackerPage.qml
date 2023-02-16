@@ -9,11 +9,6 @@ Rectangle {
     color: "#202c33"
     border.color: "#202c33"
     border.width: 0
-    property string reponse4: backend.currentItem.reponse4_value
-    property string reponse3: backend.currentItem.reponse3_value
-    property string reponse2: backend.currentItem.reponse2_value
-    property string reponse1: backend.currentItem.reponse1_value
-    property string question: backend.currentItem.question_value
     property int nbrreponses: backend.currentItem.nombre_reponses
 
 
@@ -29,7 +24,7 @@ Rectangle {
         Text {
             id: text_question
             color: "#ffffff"
-            text: qsTr(question)
+            text: qsTr(backend.currentItem.question_value)
             anchors.fill: parent
             font.pixelSize: 100
 
@@ -70,7 +65,7 @@ Rectangle {
             width: 960
             height: 445
             color: "#ffffff"
-            text: qsTr(reponse1)
+            text: qsTr(backend.currentItem.ReponsesList[0].reponse_value)
             anchors.left: parent.left
             anchors.top: parent.top
             font.pixelSize: 100
@@ -89,7 +84,7 @@ Rectangle {
             width: 960
             height: 445
             color: "#ffffff"
-            text: qsTr(reponse2)
+            text: qsTr(backend.currentItem.ReponsesList[1].reponse_value)
             anchors.right: parent.right
             anchors.top: parent.top
             font.pixelSize: 100
@@ -108,7 +103,7 @@ Rectangle {
             width: 960
             height: 445
             color: "#ffffff"
-            text: qsTr(reponse3)
+            text: qsTr(backend.currentItem.ReponsesList[2].reponse_value)
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             font.pixelSize: 100
@@ -127,7 +122,7 @@ Rectangle {
             width: 960
             height: 445
             color: "#ffffff"
-            text: qsTr(reponse4)
+            text: qsTr(backend.currentItem.ReponsesList[3].reponse_value)
             anchors.left: parent.left
             anchors.bottom: parent.bottom
             font.pixelSize: 100
@@ -162,7 +157,7 @@ Rectangle {
             width: 960
             height: 445
             color: "#ffffff"
-            text: qsTr(reponse1)
+            text: qsTr(backend.currentItem.ReponsesList[0].reponse_value)
             anchors.left: parent.left
             anchors.top: parent.top
             font.pixelSize: 100
@@ -181,7 +176,7 @@ Rectangle {
             width: 960
             height: 445
             color: "#ffffff"
-            text: qsTr(reponse2)
+            text: qsTr(backend.currentItem.ReponsesList[1].reponse_value)
             anchors.right: parent.right
             anchors.top: parent.top
             font.pixelSize: 100
@@ -197,9 +192,10 @@ Rectangle {
             id: text7
             x: 0
             y: 0
+            width: 1920
             height: 445
             color: "#ffffff"
-            text: qsTr(reponse3)
+            text: qsTr(backend.currentItem.ReponsesList[2].reponse_value)
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
@@ -233,7 +229,7 @@ Rectangle {
             y: 0
             width: 960
             color: "#ffffff"
-            text: qsTr(reponse1)
+            text: qsTr(backend.currentItem.ReponsesList[0].reponse_value)
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -253,7 +249,7 @@ Rectangle {
             y: 0
             width: 960
             color: "#ffffff"
-            text: qsTr(reponse2)
+            text: qsTr(backend.currentItem.ReponsesList[1].reponse_value)
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom

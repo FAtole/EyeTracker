@@ -9,9 +9,43 @@ from PySide2.QtCore import QObject, Signal, Property,  Slot
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQml import QQmlApplicationEngine
 
+class Reponse(QObject):
+    reponseChanged = Signal(str)
 
+    def __init__(self, reponse):
+        QObject.__init__(self)
+        self.reponse = reponse
 
-class ItemModel(QObject):
+    @Property(str, notify=reponseChanged)
+    def reponse_value(self):
+        return self.reponse
+
+    @reponse_value.setter
+    def reponse_value(self, text):
+        self.reponse = text
+        self.reponseChanged.emit(self.reponse) 
+
+class ListReponses(QObject):
+    ListRepChanged = Signal("QVariantList")
+    def __init__(self):
+        QObject.__init__(self)
+        self.list_reponses = []
+
+    def add_rep(self,reponse):
+        rep = Reponse(reponse)
+        self.list_reponses.append(rep)
+
+    @Property("QVariantList", notify=ListRepChanged)
+    def model(self):
+        return self.list_reponses
+    
+    @model.setter
+    def model(self, list_reponses):
+        self.list_reponses = list_reponses  
+        self.ListRepChanged.emit(self.list_reponses)
+
+class PropositionModel(QObject):
+    ReponsesChanged = Signal("QVariantList")
     questionChanged = Signal(str)
     dateChanged = Signal(str)
     favorisChanged = Signal(bool)
@@ -25,6 +59,18 @@ class ItemModel(QObject):
         self.format =row[2]
         self.date =row[1]
         self.favoris = eval(row[0])
+        self._reponse = ListReponses()
+        for rep in self.reponses:
+            self._reponse.add_rep(rep)
+        
+    @Property("QVariantList", notify=ReponsesChanged)
+    def ReponsesList(self):
+        return self._reponse.model
+
+    @ReponsesList.setter
+    def ReponsesList(self, _model):
+        self._reponse = _model  
+        self.ReponsesChanged.emit(self._reponse)
 
     @Property(int)
     def nombre_reponses(self):
@@ -87,17 +133,17 @@ class ItemModel(QObject):
         self.idChanged.emit(self.id)   
 
 
-class ListModel(QObject):
+class ListPropositions(QObject):
     ListChanged = Signal("QVariantList")
     def __init__(self):
         QObject.__init__(self)
         self.list_of_items = []
 
     def add_item(self,row,id):
-        item = ItemModel(row,id)
+        item = PropositionModel(row,id)
         self.list_of_items.append(item)
     
-    @Property(ItemModel)
+    @Property(PropositionModel)
     def get_item(self, id):
         return next(item for item in self.list_of_items if item.id == id)
 
@@ -113,11 +159,11 @@ class ListModel(QObject):
 
 class MainWindow(QObject):
     ModelChanged = Signal("QVariantList")
-    ItemModelChanged = Signal(ItemModel)
+    PropositionModelChanged = Signal(PropositionModel)
 
     def __init__(self):
         QObject.__init__(self)
-        self._model = ListModel()
+        self._model = ListPropositions()
         self.bdd_proposition = Loader_CSV()
         self.Load_items()
         self.current_item = self._model.model[0]
@@ -137,14 +183,14 @@ class MainWindow(QObject):
         self._model = _model  
         self.ModelChanged.emit(self._model)
 
-    @Property(ItemModel, notify=ItemModelChanged)
+    @Property(PropositionModel, notify=PropositionModelChanged)
     def currentItem(self):
         return self.current_item
 
     @currentItem.setter
     def currentItem(self, item):
         self.current_item = item  
-        self.ItemModelChanged.emit(self.current_item)
+        self.PropositionModelChanged.emit(self.current_item)
 
     @Slot(int)
     def Save(self, id):
