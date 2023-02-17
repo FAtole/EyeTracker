@@ -1,6 +1,7 @@
 import csv
 from pandas import notnull
 from reader_csv import Loader_CSV
+import datetime    
 import sys
 import os
 
@@ -191,6 +192,14 @@ class MainWindow(QObject):
     def currentItem(self, item):
         self.current_item = item  
         self.PropositionModelChanged.emit(self.current_item)
+
+    @Slot(str)
+    def AddProp(self, question):
+        print("Add")
+        id = len(self._model.model)
+        date = datetime.date.today().strftime('%d/%m/%Y')
+        self._model.add_item(["False",date, "Carre", question,"oui","Non"], id )
+        self.Save(id)
 
     @Slot(int)
     def Save(self, id):

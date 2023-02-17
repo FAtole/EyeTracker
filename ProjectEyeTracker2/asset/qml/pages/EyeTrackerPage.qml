@@ -78,9 +78,9 @@ Rectangle {
         }
 
         Text {
+            y: 0
             id: text2
             x: 0
-            y: 0
             width: 960
             height: 445
             color: "#ffffff"

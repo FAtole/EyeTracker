@@ -109,6 +109,9 @@ Rectangle {
             colorBg: "#37aaf7"
             textColorEntered: "#ffffff"
             textColor: "#ffffff"
+            onButtonClicked: stackView.push(Qt.resolvedUrl("AjouterPropositionPage.qml"))
+
+
         }
 
         Item {
@@ -226,6 +229,7 @@ Rectangle {
             x: 50
             y: 100
             visible: true
+
         }
     }
 

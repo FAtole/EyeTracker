@@ -1,11 +1,15 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-
 import "../components"
+
 
 Rectangle {
     width: 1540
     height: 1020
+    border.color: "#ffffff"
+
+    property int nbr_rep: 2
+    property int maximumLength: 80
 
 
     Rectangle {
@@ -24,7 +28,7 @@ Rectangle {
             width: 600
             height: 110
             color: "#ffffff"
-            text: qsTr(backend.currentItem.question_value)
+            text: qsTr("Ajouter une propositions")
             font.pixelSize: 40
             verticalAlignment: Text.AlignVCenter
             font.family: "Roboto"
@@ -36,14 +40,13 @@ Rectangle {
             width: 60
             height: 60
             background: Rectangle{
-               id: bg
-               color: "#00ffffff"
-           }
+                id: bg
+                color: "#00ffffff"
+            }
 
             contentItem: Image {
                 id: image
                 anchors.fill: parent
-
                 source: "../../images/icons8-back-96.png"
                 sourceSize.height: 96
                 sourceSize.width: 96
@@ -107,95 +110,11 @@ Rectangle {
                     y: 0
                     width: 38
                     height: 38
-                    source: "../../images/icons8-info-512.png"
+                    source: "../../EyeTracker/projecteyetracker/asset/images/icons8-info-512.png"
                 }
             }
         }
 
-
-        Item {
-            x: 1265
-            y: 20
-
-            Button {
-                id: button_delete
-                x: 100
-                y: 0
-                width: 90
-                height: 90
-                flat: true
-
-                background :   Rectangle{
-                    color: "#00000000"
-                    border.width: 0
-                }
-
-                contentItem: Item{
-                    x: 0
-                    y: 0
-                    Image {
-                        x: 0
-                        y: 0
-                        width: 90
-                        height: 90
-                        source: "../../images/icons8-circle-100.png"
-                        sourceSize.height: 100
-                        sourceSize.width: 100
-                    }
-                    Image {
-                        x: 15
-                        y: 14
-                        width: 60
-                        height: 60
-                        source: "../../images/icons8-trash-can-208.png"
-                        sourceSize.height: 208
-                        sourceSize.width: 208
-                    }
-                }
-            }
-
-            Button {
-                id: button_play
-                x: 0
-                y: 0
-                width: 90
-                height: 90
-                flat: true
-
-                background :   Rectangle{
-                    color: "#00000000"
-                    border.width: 0
-                }
-
-                contentItem: Item{
-                    Image {
-                        x: 0
-                        y: 0
-                        width: 90
-                        height: 90
-                        source: "../../images/icons8-circle-100.png"
-                        sourceSize.height: 100
-                        sourceSize.width: 100
-                    }
-                    Image {
-                        x: 18
-                        y: 15
-                        width: 60
-                        height: 60
-                        source: "../../images/icons8-play-96.png"
-                        sourceSize.height: 208
-                        sourceSize.width: 208
-                    }
-                }
-            }
-        }
-        CustomButton {
-            id: customButton
-            x: 1290
-            y: 770
-            btnWidth: 200
-            text_b: "Modifier"
-        }
 
         Item {
             id: zone_question
@@ -227,17 +146,35 @@ Rectangle {
                 border.width: 0
                 clip: false
 
-                Text {
-                    id: text3
+                TextEdit {
+                    id: question_edit
+                    x: 20
+                    y: 0
+                    width: 1250
+                    height: 50
+
+                    readOnly: false
+                    property string previousText: text
                     color: "#ffffff"
-                    text: qsTr(backend.currentItem.question_value)
-                    anchors.fill: parent
+                    text: qsTr("Question 1")
                     font.pixelSize: 25
-                    horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
-                    leftPadding: 5
                     font.family: "Roboto"
+
+                    onTextChanged: {
+                                if (text.length > maximumLength) {
+                                    var cursor = cursorPosition;
+                                    text = previousText;
+                                    if (cursor > text.length) {
+                                        cursorPosition = text.length;
+                                    } else {
+                                        cursorPosition = cursor-1;
+                                    }
+                                }
+                                previousText = text
+                            }
                 }
+
             }
         }
 
@@ -245,6 +182,7 @@ Rectangle {
             id: zone_reponse
             x: 35
             y: 200
+
             Text {
                 id: text4
                 x: 0
@@ -269,48 +207,32 @@ Rectangle {
                 clip: true
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-
-                Component {
-                    id: delegateModel
-                    Rectangle {
-                            x: 0
-                            y: 0
-                            width: 1290
-                            height: 70
-                            color:"#00ffffff"
-                        Text {
-                            x: 20
-                            y: 0
-                            width: 1250
-                            height: 70
-                            color: "#ffffff"
-                            text: qsTr( model.modelData.reponse_value)
-                            font.pixelSize: 25
-                            verticalAlignment: Text.AlignVCenter
-                            font.family: "Roboto"
-                        }
-
-                        Rectangle {
-                            x: 0
-                            y: 70
-                            width: 1290
-                            height: 2
-                            color: "#cc687983"
-                            border.width: 0
-                        }
-                    }
-                }
-                ListView {
+                Column {
                     id: column
+                    width: 1290
+                    height: 352
 
-                    width: parent.width
-                    height: 350
+                    visible: true
+                    anchors.fill: parent
+                    spacing: 0
                     clip: false
 
-                    model: backend.currentItem.ReponsesList
-                    delegate: delegateModel
+                    EnterReponseComponent{
+                        nbr_reponse: nbr_rep
+                        text_reponse: "Reponse 1"
+                        onButtonClicked: nbr_rep=nbr_rep-1
+                    }
 
-                }     
+                    EnterReponseComponent{
+                        nbr_reponse: nbr_rep
+                        text_reponse: "Reponse 2"
+                        onButtonClicked: nbr_rep=nbr_rep-1
+                    }
+
+
+                }
+
+
             }
 
             Rectangle {
@@ -321,7 +243,58 @@ Rectangle {
                 color: "#cc687983"
                 border.width: 0
             }
+
+            Button{
+                id: add_reponse
+                x: 720
+                y: 380
+                width: 100
+                height: 100
+                background: Rectangle{
+                    color: "#00ffffff"
+                }
+
+                contentItem: Image {
+                    anchors.fill: parent
+                    source: "../../images/icons8-plus-512.png"
+                    sourceSize.height: 96
+                    sourceSize.width: 96
+                    fillMode: Image.PreserveAspectFit
+
+                }
+                visible: (nbr_rep>3)? false : true
+                onClicked: {
+                    nbr_rep =nbr_rep + 1
+                    const newObject = Qt.createQmlObject(`
+                        import "../components"
+
+                        EnterReponseComponent{
+                            nbr_reponse: nbr_rep
+                            text_reponse: "Reponse"
+                            onButtonClicked: nbr_rep=nbr_rep-1
+                        }
+                        `,
+                        column );
+
+                }
+            }
+        }
+
+        CustomButton {
+            id: customButton
+            x: 1290
+            y: 770
+            btnWidth: 200
+            onButtonClicked:  {
+                for (var i=0; i<Column.children.length; ++i){
+                    console.info(Column.children[i].text_reponse)
+                }
+                backend.AddProp(question_edit.text)
+            
+                stackView.push(Qt.resolvedUrl("PropositionsPage.qml"))
+            }
         }
     }
 
 }
+
