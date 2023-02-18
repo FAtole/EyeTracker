@@ -37,6 +37,7 @@ Item {
                 }
             }
             previousText = text
+            text_reponse = text
         }
     }
 

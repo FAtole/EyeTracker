@@ -110,7 +110,7 @@ Rectangle {
                     y: 0
                     width: 38
                     height: 38
-                    source: "../../EyeTracker/projecteyetracker/asset/images/icons8-info-512.png"
+                    source: "../../images/icons8-info-512.png"
                 }
             }
         }
@@ -286,10 +286,17 @@ Rectangle {
             y: 770
             btnWidth: 200
             onButtonClicked:  {
-                for (var i=0; i<Column.children.length; ++i){
-                    console.info(Column.children[i].text_reponse)
+                var reponses =[]
+                for (var i=0; i<column.children.length; ++i){
+                    if(column.children[i].text_reponse){
+                        reponses.push(column.children[i].text_reponse)
+                    }
+                    else{
+                        reponses.push("")
+                    }
+                    console.log(column.children[i].text_reponse)
                 }
-                backend.AddProp(question_edit.text)
+                backend.AddProp(question_edit.text,reponses[0],reponses[1],reponses[2],reponses[3])
             
                 stackView.push(Qt.resolvedUrl("PropositionsPage.qml"))
             }

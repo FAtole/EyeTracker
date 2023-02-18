@@ -193,17 +193,27 @@ class MainWindow(QObject):
         self.current_item = item  
         self.PropositionModelChanged.emit(self.current_item)
 
-    @Slot(str)
-    def AddProp(self, question):
+    @Slot(str,str,str,str,str)
+    def AddProp(self, question,rep1,rep2,rep3,rep4):
         print("Add")
         id = len(self._model.model)
         date = datetime.date.today().strftime('%d/%m/%Y')
-        self._model.add_item(["False",date, "Carre", question,"oui","Non"], id )
+        row = ["False",date, "Carre", question]
+        if rep1 != "":
+            row.append(rep1)
+        if rep2 != "":
+            row.append(rep2)
+        if rep3 != "":
+            row.append(rep3)
+        if rep4 != "":
+            row.append(rep4)
+            
+        self._model.add_item(row, id )
         self.Save(id)
 
     @Slot(int)
     def Save(self, id):
-        print("Change"+str(id))
+        print("Change "+str(id))
         self.bdd_proposition.Save(self.model)
 
     
