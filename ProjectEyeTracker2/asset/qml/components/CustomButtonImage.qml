@@ -16,6 +16,7 @@ Item {
     property string image_Source: "../../images/icons8-trash-can-208.png"
     property int btnHeight: 50
     property int btnWidth : 175
+    signal buttonClicked();
 
     Button{
         id:btn
@@ -73,11 +74,11 @@ Item {
                    source: image_Source
                }
         }
+
+        onClicked: {
+                id_button.buttonClicked()
+            }
     }
 }
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:2}
-}
-##^##*/
+

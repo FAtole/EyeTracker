@@ -101,7 +101,9 @@ Rectangle {
             fillMode: Image.PreserveAspectFit
             visible: selector.checked
         }
-
+        onClicked:{ (selector.checked) ? nbr_selected_prop=nbr_selected_prop+1 :nbr_selected_prop=nbr_selected_prop-1
+            
+        }
         
     }
 
@@ -228,6 +230,7 @@ Rectangle {
             sourceSize.width: 500
             fillMode: Image.PreserveAspectFit
         }
+        onClicked: popup_supp_un_element.open()
     }
 
     Rectangle {

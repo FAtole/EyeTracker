@@ -152,6 +152,7 @@ Rectangle {
                         sourceSize.width: 208
                     }
                 }
+                onClicked: popup.open()
             }
 
             Button {
@@ -186,6 +187,9 @@ Rectangle {
                         sourceSize.height: 208
                         sourceSize.width: 208
                     }
+                }
+                onClicked: {
+                stackView2.push(Qt.resolvedUrl("../pages/EyeTrackerPage.qml"))
                 }
             }
         }
@@ -323,5 +327,97 @@ Rectangle {
             }
         }
     }
+
+      Popup {
+           id: popup
+           x: 75
+           y: 280
+           width: 1000
+           height: 400
+           modal: true
+           focus: true
+           closePolicy: Popup.CloseOnEscape
+
+           background: Rectangle{
+                          color: "#14222B"
+                          radius: 20
+                          border.width: 0
+           }
+
+           contentItem: Item {
+                x:0
+                y:0
+                Text {
+                    x: 40
+                    y: 20
+                    width: 500
+                    height: 60
+                    color: "#ffffff"
+
+                    text: qsTr("Attention")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.bold: true
+                    font.pointSize: 35
+                    font.family: "Roboto"
+                }
+
+                Image {
+                    x: 700
+                    y: 20
+                    width: 200
+                    height: 200
+
+                    source: "../../images/icons8-erreur-96.png"
+                    fillMode: Image.PreserveAspectFit
+                    sourceSize.height: 96
+                    sourceSize.width: 96
+                }
+
+                Text {
+                    x: 100
+                    y: 110
+                    width: 500
+                    height: 150
+                    color: "#ffffff"
+
+                    text: qsTr("Voulez-vous supprimer cette proposition ?")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 20
+                    font.family: "Roboto"
+                }
+
+                CustomButton {
+                    x: 490
+                    y: 300
+                    colorBg: "#14222b"
+                    colorBgPressed: "#37aaf7"
+                    colorBgEntered: "#37aaf7"
+                    btnHeight: 60
+                    btnWidth: 200
+                    text_b: "Annuler"
+                    onButtonClicked: popup.close()
+                }
+
+                CustomButton {
+                    x: 710
+                    y: 300
+                    colorBgEntered: "#ffffff"
+                    colorBgPressed: "#ffffff"
+                    textColorEntered: "#ff0000"
+                    colorContour: "#ff0000"
+                    colorBg: "#ff0000"
+                    btnHeight: 60
+                    btnWidth: 200
+                    text_b: "Supprimer"
+                    onButtonClicked:{
+                        popup.close()
+                        stackView.pop()
+                    }
+                }
+           }
+
+       }
 
 }

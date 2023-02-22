@@ -5,7 +5,7 @@ import "../components"
 Rectangle {
     color: "#ffffff"
     border.color: "#37aaf7"
-
+    property int nbr_selected_prop: 0
 
     Rectangle {
         id: headline
@@ -228,18 +228,197 @@ Rectangle {
             id: supprimer_plusieurs_btn
             x: 50
             y: 100
-            visible: true
+            visible : (nbr_selected_prop>0)? true : false 
+
+            onButtonClicked:popup_supp_multi_elements.open()
 
         }
     }
 
 
+   Popup {
+           id: popup_supp_un_element
+           x: 75
+           y: 280
+           width: 1000
+           height: 400
+           modal: true
+           focus: true
+           closePolicy: Popup.CloseOnEscape
+
+           background: Rectangle{
+                          color: "#14222B"
+                          radius: 20
+                          border.width: 0
+           }
+
+           contentItem: Item {
+                x:0
+                y:0
+                Text {
+                    x: 40
+                    y: 20
+                    width: 500
+                    height: 60
+                    color: "#ffffff"
+
+                    text: qsTr("Attention")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.bold: true
+                    font.pointSize: 35
+                    font.family: "Roboto"
+                }
+
+                Image {
+                    x: 700
+                    y: 20
+                    width: 200
+                    height: 200
+
+                    source: "../../images/icons8-erreur-96.png"
+                    fillMode: Image.PreserveAspectFit
+                    sourceSize.height: 96
+                    sourceSize.width: 96
+                }
+
+                Text {
+                    x: 100
+                    y: 110
+                    width: 500
+                    height: 150
+                    color: "#ffffff"
+
+                    text: qsTr("Voulez-vous supprimer cette proposition ?")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 20
+                    font.family: "Roboto"
+                }
+
+                CustomButton {
+                    x: 490
+                    y: 300
+                    colorBg: "#14222b"
+                    colorBgPressed: "#37aaf7"
+                    colorBgEntered: "#37aaf7"
+                    btnHeight: 60
+                    btnWidth: 200
+                    text_b: "Annuler"
+                    onButtonClicked: popup_supp_un_element.close()
+                }
+
+                CustomButton {
+                    x: 710
+                    y: 300
+                    colorBgEntered: "#ffffff"
+                    colorBgPressed: "#ffffff"
+                    textColorEntered: "#ff0000"
+                    colorContour: "#ff0000"
+                    colorBg: "#ff0000"
+                    btnHeight: 60
+                    btnWidth: 200
+                    text_b: "Supprimer"
+                    onButtonClicked:{
+                        popup_supp_un_element.close()
+                        stackView.push(Qt.resolvedUrl("PropositionsPage.qml"))
+                    }
+                }
+           }
+
+       }
+
+
+        Popup {
+           id: popup_supp_multi_elements
+           x: 75
+           y: 280
+           width: 1000
+           height: 400
+           modal: true
+           focus: true
+           closePolicy: Popup.CloseOnEscape
+
+           background: Rectangle{
+                          color: "#14222B"
+                          radius: 20
+                          border.width: 0
+           }
+
+           contentItem: Item {
+                x:0
+                y:0
+                Text {
+                    x: 40
+                    y: 20
+                    width: 500
+                    height: 60
+                    color: "#ffffff"
+
+                    text: qsTr("Attention")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.bold: true
+                    font.pointSize: 35
+                    font.family: "Roboto"
+                }
+
+                Image {
+                    x: 700
+                    y: 20
+                    width: 200
+                    height: 200
+
+                    source: "../../images/icons8-erreur-96.png"
+                    fillMode: Image.PreserveAspectFit
+                    sourceSize.height: 96
+                    sourceSize.width: 96
+                }
+
+                Text {
+                    x: 100
+                    y: 110
+                    width: 500
+                    height: 150
+                    color: "#ffffff"
+
+                    text: qsTr("Voulez-vous supprimer ces propositions ?")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 20
+                    font.family: "Roboto"
+                }
+
+                CustomButton {
+                    x: 490
+                    y: 300
+                    colorBg: "#14222b"
+                    colorBgPressed: "#37aaf7"
+                    colorBgEntered: "#37aaf7"
+                    btnHeight: 60
+                    btnWidth: 200
+                    text_b: "Annuler"
+                    onButtonClicked: popup_supp_multi_elements.close()
+                }
+
+                CustomButton {
+                    x: 710
+                    y: 300
+                    colorBgEntered: "#ffffff"
+                    colorBgPressed: "#ffffff"
+                    textColorEntered: "#ff0000"
+                    colorContour: "#ff0000"
+                    colorBg: "#ff0000"
+                    btnHeight: 60
+                    btnWidth: 200
+                    text_b: "Supprimer"
+                    onButtonClicked:{
+                        popup_supp_multi_elements.close()
+                        stackView.push(Qt.resolvedUrl("PropositionsPage.qml"))
+                    }
+                }
+           }
+
+       }
 }
 
-
-
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.66}
-}
-##^##*/

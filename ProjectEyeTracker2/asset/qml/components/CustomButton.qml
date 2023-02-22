@@ -7,6 +7,7 @@ Item {
     height: btnHeight
     // Custom Properties
     property color colorBg: "#37aaf7"
+    property color colorContour: "#37aaf7"
     property color colorBgEntered: "#ff00c5"
     property color colorBgPressed: "#ff00c5"
     property color textColor: "#ffffff"
@@ -24,10 +25,10 @@ Item {
         width: parent.width
         height: parent.height
         background: Rectangle{
-               id: bg
-               color: internal.dynamicBg
-               radius: 10
-
+                id: bg
+                color: internal.dynamicBg
+                radius: 10
+                border.color: colorContour
            }
 
         QtObject{
