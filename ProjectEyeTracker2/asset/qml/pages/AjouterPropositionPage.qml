@@ -294,7 +294,6 @@ Rectangle {
                     else{
                         reponses.push("")
                     }
-                    console.log(column.children[i].text_reponse)
                 }
                 backend.AddProp(question_edit.text,reponses[0],reponses[1],reponses[2],reponses[3])
             

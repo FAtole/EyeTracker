@@ -6,6 +6,8 @@ Rectangle {
     color: "#ffffff"
     border.color: "#37aaf7"
     property int nbr_selected_prop: 0
+    property var list_id_to_remove : []
+
 
     Rectangle {
         id: headline
@@ -320,6 +322,7 @@ Rectangle {
                     btnWidth: 200
                     text_b: "Supprimer"
                     onButtonClicked:{
+                        backend.Delete(backend.currentItem.id_value)
                         popup_supp_un_element.close()
                         stackView.push(Qt.resolvedUrl("PropositionsPage.qml"))
                     }
@@ -413,6 +416,8 @@ Rectangle {
                     btnWidth: 200
                     text_b: "Supprimer"
                     onButtonClicked:{
+                        list_id_to_remove.forEach(id => backend.Delete(id))
+
                         popup_supp_multi_elements.close()
                         stackView.push(Qt.resolvedUrl("PropositionsPage.qml"))
                     }

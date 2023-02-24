@@ -413,7 +413,8 @@ Rectangle {
                     text_b: "Supprimer"
                     onButtonClicked:{
                         popup.close()
-                        stackView.pop()
+                        backend.Delete(backend.currentItem.id_value)
+                        stackView.push(Qt.resolvedUrl("PropositionsPage.qml"))
                     }
                 }
            }

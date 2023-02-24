@@ -39,6 +39,7 @@ Rectangle {
             x: 24
             y: 50
             colorBg: "#ff0000"
+            colorContour: "#ff0000"
             text_b: "Retour"
             onButtonClicked: stackView2.pop()
         }

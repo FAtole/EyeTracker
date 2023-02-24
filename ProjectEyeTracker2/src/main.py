@@ -140,11 +140,19 @@ class ListPropositions(QObject):
         QObject.__init__(self)
         self.list_of_items = []
 
-    def add_item(self,row,id):
+    def load_item(self,row,id):
         item = PropositionModel(row,id)
         self.list_of_items.append(item)
+
+    def add_item(self,row,id):
+        item = PropositionModel(row,id)
+        self.list_of_items.insert(0, item)
+
+    def del_item(self,id):
+        item = next(item for item in self.list_of_items if item.id == id)
+        print(str(item.question))
+        self.list_of_items.remove(item)
     
-    @Property(PropositionModel)
     def get_item(self, id):
         return next(item for item in self.list_of_items if item.id == id)
 
@@ -172,7 +180,7 @@ class MainWindow(QObject):
     def Load_items(self):
         index = 0
         for proposition in self.bdd_proposition.Propositions :
-            self._model.add_item(proposition.Get_row(), index )
+            self._model.load_item(proposition.Get_row(), index )
             index +=1
 
     @Property("QVariantList", notify=ModelChanged)
@@ -209,11 +217,22 @@ class MainWindow(QObject):
             row.append(rep4)
             
         self._model.add_item(row, id )
-        self.Save(id)
+        self.Save()
+
+    @Slot(int,result=PropositionModel)
+    def GetItem(self, id):
+        print("get "+str(id))
+        return   self._model.get_item(id)
 
     @Slot(int)
-    def Save(self, id):
-        print("Change "+str(id))
+    def Delete(self, id):
+        print("Delete "+str(id))
+        self._model.del_item(id)
+        self.Save()
+
+    @Slot()
+    def Save(self):
+        print("Save ")
         self.bdd_proposition.Save(self.model)
 
     

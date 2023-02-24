@@ -101,8 +101,16 @@ Rectangle {
             fillMode: Image.PreserveAspectFit
             visible: selector.checked
         }
-        onClicked:{ (selector.checked) ? nbr_selected_prop=nbr_selected_prop+1 :nbr_selected_prop=nbr_selected_prop-1
-            
+        onClicked:{ 
+            if(selector.checked) {
+                nbr_selected_prop=nbr_selected_prop+1
+                list_id_to_remove.push(id_proposition)
+            }
+            else{
+                nbr_selected_prop=nbr_selected_prop-1
+                var index = list_id_to_remove.indexOf(id_proposition) 
+                list_id_to_remove.splice(index, 1);
+            } 
         }
         
     }
@@ -141,8 +149,8 @@ Rectangle {
         }
 
         onClicked:  {
-            backend.model[id_proposition].favoris_value = checkBox_favoris.checked
-            backend.Save(id_proposition)
+            backend.GetItem(id_proposition).favoris_value = checkBox_favoris.checked
+            backend.Save()
         }
 
 
@@ -170,7 +178,7 @@ Rectangle {
             fillMode: Image.PreserveAspectFit
         }
         onClicked: {
-            backend.currentItem = backend.model[id_proposition]
+            backend.currentItem = backend.GetItem(id_proposition)
             stackView2.push(Qt.resolvedUrl("../pages/EyeTrackerPage.qml"))
             }
 
@@ -198,7 +206,7 @@ Rectangle {
             fillMode: Image.PreserveAspectFit
         }
         onClicked: {
-            backend.currentItem = backend.model[id_proposition]
+            backend.currentItem = backend.GetItem(id_proposition)
             stackView.push(Qt.resolvedUrl("../pages/PropositionPage.qml"))
             }
     }
@@ -230,7 +238,10 @@ Rectangle {
             sourceSize.width: 500
             fillMode: Image.PreserveAspectFit
         }
-        onClicked: popup_supp_un_element.open()
+        onClicked: {
+            backend.currentItem = backend.GetItem(id_proposition)
+            popup_supp_un_element.open()
+        }
     }
 
     Rectangle {
