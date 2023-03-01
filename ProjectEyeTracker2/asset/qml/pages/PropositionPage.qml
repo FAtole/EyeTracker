@@ -199,6 +199,9 @@ Rectangle {
             y: 770
             btnWidth: 200
             text_b: "Modifier"
+            onButtonClicked:{
+                stackView.push(Qt.resolvedUrl("ModifierPropositionPage.qml"))
+            }
         }
 
         Item {

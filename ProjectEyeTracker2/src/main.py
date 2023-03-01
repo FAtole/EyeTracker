@@ -153,6 +153,11 @@ class ListPropositions(QObject):
         print(str(item.question))
         self.list_of_items.remove(item)
     
+    def modify_item(self,row,id):
+        item = next(item for item in self.list_of_items if item.id == id)
+        i =  self.list_of_items.index(item)
+        self.list_of_items[i] = PropositionModel(row,id)
+    
     def get_item(self, id):
         return next(item for item in self.list_of_items if item.id == id)
 
@@ -217,6 +222,23 @@ class MainWindow(QObject):
             row.append(rep4)
             
         self._model.add_item(row, id )
+        self.Save()
+    
+    @Slot(int,bool,str,str,str,str,str)
+    def ChangeProp(self,id,isfavoris, question,rep1,rep2,rep3,rep4):
+        print("Change ")
+        date = datetime.date.today().strftime('%d/%m/%Y')
+        row = [str(isfavoris),date, "Carre", question]
+        if rep1 != "":
+            row.append(rep1)
+        if rep2 != "":
+            row.append(rep2)
+        if rep3 != "":
+            row.append(rep3)
+        if rep4 != "":
+            row.append(rep4)
+            
+        self._model.modify_item(row, id )
         self.Save()
 
     @Slot(int,result=PropositionModel)

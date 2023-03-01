@@ -9,7 +9,7 @@ Rectangle {
     color: "#202c33"
     border.color: "#202c33"
     border.width: 0
-    property int nbrreponses: backend.currentItem.nombre_reponses
+    property int nbrreponses: (backend.currentItem.nombre_reponses)? backend.currentItem.nombre_reponses :2
 
 
     Rectangle {
