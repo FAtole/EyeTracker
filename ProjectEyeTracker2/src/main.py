@@ -51,6 +51,7 @@ class PropositionModel(QObject):
     dateChanged = Signal(str)
     favorisChanged = Signal(bool)
     idChanged = Signal(int)
+    nbrreponseChanged = Signal(int)
 
     def __init__(self, row,id):
         QObject.__init__(self)
@@ -73,26 +74,10 @@ class PropositionModel(QObject):
         self._reponse = _model  
         self.ReponsesChanged.emit(self._reponse)
 
-    @Property(int)
+    @Property(int,  notify=nbrreponseChanged)
     def nombre_reponses(self):
         return len(self.reponses)
-
-    @Property(str)
-    def reponse1_value(self):
-        return self.reponses[0]
     
-    @Property(str)
-    def reponse2_value(self):
-        return self.reponses[1]
-    
-    @Property(str)
-    def reponse3_value(self):
-        return self.reponses[2] if len(self.reponses)>2 else ""
-    
-    @Property(str)
-    def reponse4_value(self):
-        return self.reponses[3] if len(self.reponses)>3 else ""
-
     @Property(str)
     def format_value(self):
         return self.format
