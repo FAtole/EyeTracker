@@ -26,12 +26,12 @@ Rectangle {
             color: "#ffffff"
             text: qsTr(backend.currentItem.question_value)
             anchors.fill: parent
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
 
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
         }
 
         CustomButton {
@@ -73,11 +73,11 @@ Rectangle {
             text: qsTr((backend.currentItem.ReponsesList[delimiter4.index41]) ? backend.currentItem.ReponsesList[delimiter4.index41].reponse_value: "")
             anchors.left: parent.left
             anchors.top: parent.top
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
             anchors.leftMargin: 0
             anchors.topMargin: 0
         }
@@ -92,13 +92,13 @@ Rectangle {
             text: qsTr((backend.currentItem.ReponsesList[delimiter4.index42]) ? backend.currentItem.ReponsesList[delimiter4.index42].reponse_value: "")
             anchors.right: parent.right
             anchors.top: parent.top
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.topMargin: 0
             anchors.rightMargin: 0
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
         }
 
         Text {
@@ -111,13 +111,13 @@ Rectangle {
             text: qsTr((backend.currentItem.ReponsesList[delimiter4.index43]) ? backend.currentItem.ReponsesList[delimiter4.index43].reponse_value: "")
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.bottomMargin: 0
             anchors.rightMargin: 0
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
         }
 
         Text {
@@ -130,12 +130,12 @@ Rectangle {
             text: qsTr((backend.currentItem.ReponsesList[delimiter4.index44]) ? backend.currentItem.ReponsesList[delimiter4.index44].reponse_value: "")
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.bottomMargin: 0
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
             anchors.leftMargin: 0
         }
 
@@ -185,11 +185,11 @@ Rectangle {
             text: qsTr((backend.currentItem.ReponsesList[delimiter3.index31]) ? backend.currentItem.ReponsesList[delimiter3.index31].reponse_value: "")
             anchors.left: parent.left
             anchors.top: parent.top
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
             anchors.topMargin: 0
             anchors.leftMargin: 0
         }
@@ -204,13 +204,13 @@ Rectangle {
             text: qsTr((backend.currentItem.ReponsesList[delimiter3.index32]) ? backend.currentItem.ReponsesList[delimiter3.index32].reponse_value: "")
             anchors.right: parent.right
             anchors.top: parent.top
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.rightMargin: 0
             anchors.topMargin: 0
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
         }
 
         Text {
@@ -224,13 +224,13 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.rightMargin: 0
             anchors.bottomMargin: 0
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
             anchors.leftMargin: 0
         }
 
@@ -278,12 +278,12 @@ Rectangle {
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.bottomMargin: 0
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
             anchors.topMargin: 0
             anchors.leftMargin: 0
         }
@@ -298,14 +298,14 @@ Rectangle {
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            font.pixelSize: 100
+            font.pixelSize: size_font_in_eyetrackerPage
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.rightMargin: 0
             anchors.topMargin: 0
             anchors.bottomMargin: 0
             font.bold: true
-            font.family: "Arial"
+            font.family: font_in_eyetrakerPage
         }
 
         Component.onCompleted: {

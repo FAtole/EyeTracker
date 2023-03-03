@@ -54,7 +54,7 @@ Rectangle {
                 width: 70
                 height: 40
                 color: "#ffffff"
-                text: qsTr("v1.0")
+                text: qsTr(version_)
                 font.pixelSize: 20
                 verticalAlignment: Text.AlignVCenter
                 font.family: "Roboto"
@@ -118,9 +118,14 @@ Rectangle {
                 width: 1150
                 height: 270
                 color: "#ffffff"
-                text: qsTr("Soleo saepe ante oculos ponere, idque libenter crebris usurpare sermonibus, omnis nostrorum imperatorum, omnis exterarum gentium potentissimorumque populorum, omnis clarissimorum regum res gestas, cum tuis nec contentionum magnitudine nec numero proeliorum nec varietate regionum nec celeritate conficiendi nec dissimilitudine bellorum posse conferri; nec vero disiunctissimas terras citius passibus cuiusquam potuisse peragrari, quam tuis non dicam cursibus, sed victoriis lustratae sunt. \nSoleo saepe ante oculos ponere, idque libenter crebris usurpare sermonibus, omnis nostrorum imperatorum, omnis exterarum gentium potentissimorumque populorum, omnis clarissimorum regum res gestas, cum tuis nec contentionum magnitudine nec numero proeliorum nec varietate regionum nec celeritate conficiendi nec dissimilitudine bellorum posse conferri; nec vero disiunctissimas terras citius passibus cuiusquam potuisse peragrari, quam tuis non dicam cursibus, sed victoriis lustratae sunt.")
+                text: qsTr("Bienvenue sur notre application d'assistant de communication ! 
+Avec notre technologie Tobii-eye tracker, vous pouvez sélectionner par le regard l'une des réponses proposées sur l'écran.
+
+Nous sommes ravis de vous offrir cette application pratique, simple et efficace pour aider à améliorer la communication des personnes ayant des besoins spéciaux. Profitez-en !")
                 font.pixelSize: 20
                 horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+
                 wrapMode: Text.WordWrap
                 font.bold: false
                 font.family: "Roboto"

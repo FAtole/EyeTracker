@@ -54,7 +54,7 @@ Rectangle {
                 width: 70
                 height: 40
                 color: "#ffffff"
-                text: qsTr("v1.0")
+                text: qsTr(version_)
                 font.pixelSize: 20
                 verticalAlignment: Text.AlignVCenter
                 font.family: "Roboto"

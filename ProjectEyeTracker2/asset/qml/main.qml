@@ -15,6 +15,9 @@ ApplicationWindow{
     // SET FLAGS
     flags: Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.CustomizeWindowHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowTitleHint
 
+    property string version_ :"v2.0"
+    property string font_in_eyetrakerPage :"Arial"
+    property int size_font_in_eyetrackerPage : 100
     
     Rectangle {
         id: header
