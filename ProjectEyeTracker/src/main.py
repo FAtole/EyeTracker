@@ -1,10 +1,8 @@
-from ast import Lambda
 from random import randrange
 import random
-from sqlite3 import Row
 from tkinter import Button, Canvas, Entry, Frame, INSERT, PhotoImage, Text,  Tk, Label, Toplevel
 from tkinter.font import BOLD, Font
-from tkinter.messagebox import askyesno, showinfo
+from tkinter.messagebox import askyesno
 from proposition import Proposition
 from reader_csv import Load_CSV
 from widget_info import Widget_info
