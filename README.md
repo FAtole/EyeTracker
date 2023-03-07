@@ -18,7 +18,7 @@ python projecteyetracker/src/main.py
 Pour la seconde :
 python ProjectEyeTracker2/src/main.py
 
-##### Voici les bibliothèques et frameworks à installer pour chaque interface :
+### Voici les bibliothèques et frameworks à installer pour chaque interface :
 
 Pour la première interface :
 
