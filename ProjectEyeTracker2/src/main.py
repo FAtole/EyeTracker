@@ -1,5 +1,3 @@
-import csv
-from pandas import notnull
 from reader_csv import Loader_CSV
 import datetime    
 import sys

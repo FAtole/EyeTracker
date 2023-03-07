@@ -12,7 +12,8 @@ RUN apt-get install tk -y
 
 
 WORKDIR /usr/app/src
-COPY projecteyetracker ./projecteyetracker
+
+COPY  projecteyetracker ./projecteyetracker
 
 CMD python ./projecteyetracker/src/main.py
 
