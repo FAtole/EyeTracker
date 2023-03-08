@@ -20,8 +20,8 @@ class Window(Tk):
         Tk.__init__(self)
 
         # On dimensionne la fenêtre         
-        ##self.state('zoomed') ## ne marche pas sur linux
-        self.attributes('-fullscreen', True)## pour linux
+        self.state('zoomed') ## ne marche pas sur linux
+        #self.attributes('-fullscreen', True)## pour linux
         self.w, self.h = self.winfo_screenwidth()/2, self.winfo_screenheight()/2
         #self.geometry("%dx%d+0+0" % (self.w, self.h))
         #resize off

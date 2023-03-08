@@ -5,6 +5,9 @@ RUN pip install -U pip setuptools
 
 # Download Package Information
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
+RUN pip uninstall opencv-python
+RUN pip install opencv-python-headless
 # Install  et Pyside
 RUN pip install PyQt5==5.15
 RUN pip install PySide2
