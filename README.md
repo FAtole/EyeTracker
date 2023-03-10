@@ -30,3 +30,17 @@ Qt, le framework d'interface graphique, doit être installé : "pip install PyQt
 PySide2, la bibliothèque Python pour l'utilisation de Qt, doit être installée en utilisant la commande suivante : "pip install PySide2"
 
 # Docker
+
+
+Pour la partie Docker de mon projet, j'ai mis en place une connexion entre l'interface graphique de ma machine hôte et le container Docker en installant et configurant XLaunch. ( https://sourceforge.net/projects/xming/files/latest/download )
+
+Lancé XLaunch avec les paramètres de connexion  suivant :
+ - l'option "Multiple Windows" 
+ - "Start no client" 
+ - "No Access Control" 
+
+Deux Dockerfiles sont utilisé : Dockerfile.1 et Dockerfile.2, correspondant aux interfaces 1 et 2.\\ 
+Pour les exécuter, on utilise les commandes suivantes :
+
+- docker build -f Dockerfile.1 -t eyetracker_python_test .
+- docker run -d -it --name eyetracker -e DISPLAY=172.29.208.1:0 -v C:\Users\anato:\anato --privileged -v /dev/bus/usb/:/dev/bus/usb eyetracker_python_test
