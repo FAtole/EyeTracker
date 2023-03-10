@@ -32,22 +32,16 @@ PySide2, la bibliothèque Python pour l'utilisation de Qt, doit être installée
 
 # Docker
 
-Pour la partie Docker de mon projet, j'ai mis en place une connexion entre l'interface graphique de ma machine hôte et le container Docker en installant et configurant XLaunch. ( \url{https://sourceforge.net/projects/xming/files/latest/download} )
+
+Pour la partie Docker de mon projet, j'ai mis en place une connexion entre l'interface graphique de ma machine hôte et le container Docker en installant et configurant XLaunch. ( https://sourceforge.net/projects/xming/files/latest/download )
 
 Lancé XLaunch avec les paramètres de connexion  suivant :
-\begin{enumerate}
-\item l'option "Multiple Windows"
-\item "Start no client"
-\item "No Access Control"
-\end{enumerate}
-\vspace{1cm}
+ - l'option "Multiple Windows" 
+ - "Start no client" 
+ - "No Access Control" 
 
 Deux Dockerfiles sont utilisé : Dockerfile.1 et Dockerfile.2, correspondant aux interfaces 1 et 2.\\ 
 Pour les exécuter, on utilise les commandes suivantes :
 
-#!/bin/bash
-docker build -f Dockerfile.1 -t eyetracker_python_test .
-docker run -d -it --name eyetracker -e DISPLAY=172.29.208.1:0 -v C:\Users\anato:\anato --privileged -v /dev/bus/usb/:/dev/bus/usb eyetracker_python_test
-\end{lstlisting}
-
-\begin{lstlisting}[frame=single,breaklines=true]
+- docker build -f Dockerfile.1 -t eyetracker_python_test .
+- docker run -d -it --name eyetracker -e DISPLAY=172.29.208.1:0 -v C:\Users\anato:\anato --privileged -v /dev/bus/usb/:/dev/bus/usb eyetracker_python_test
